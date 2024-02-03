@@ -15,7 +15,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv("SQLALCHEMY_TRACK_MODIFICATIONS", False)
 
     # URI for the database connection (Aiven MySQL database)
-    SQLALCHEMY_DATABASE_URI = "mysql://avnadmin:AVNS_2W0t4LFVzQtm2sPWtaZ@fit-meet-db-fit-meet.a.aivencloud.com:18248"
+    SQLALCHEMY_DATABASE_URI = "mysql://avnadmin:AVNS_2W0t4LFVzQtm2sPWtaZ@fit-meet-db-fit-meet.a.aivencloud.com:18248/defaultdb"
     
     # Enable debug mode for development (Set to False in production)
     DEBUG = True
