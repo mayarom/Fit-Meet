@@ -1,0 +1,93 @@
+/* --- General Styles --- */
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 40px;
+  }
+  
+  .form {
+    text-align: center;
+  }
+  
+  /* --- Typography --- */
+  
+  .form h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .form p {
+    color: #777;
+    font-size: 14px;
+  }
+  
+  .form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  /* --- Form Elements --- */
+  
+  .form input[type="text"],
+  .form input[type="password"],
+  .form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .form button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* --- Alerts --- */
+  
+  .alert {
+    margin-top: 20px;
+  }
+  
+  .alert p {
+    margin: 0;
+  }
+  
+  .alert {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .alert p {
+    margin: 0;
+    font-size: 16px; /* Increase font size for better visibility */
+  }
+  
+  /* Style the success alert */
+  .alert-success {
+    background-color: #dff0d8;
+    border-color: #d0e9c6;
+    color: #3c763d;
+  }
+  
+  /* Style the error alert */
+  .alert-danger {
+    background-color: #f2dede;
+    border-color: #ebccd1;
+    color: #a94442;
+  }  

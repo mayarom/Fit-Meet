@@ -1,0 +1,125 @@
+/* Define color variables for better readability and maintenance */
+:root {
+    --white: #ffffff;
+    --dark-blue: #283046;
+    --green: #31C753;
+    --dark-green: #2a9d48;
+    --darker-green: #218838;
+    --light-sporty-blue: #4A90E2;
+}
+
+/* Use a common font family and font size for better consistency */
+body {
+    font-family: 'Your Modern Font', sans-serif;
+    font-size: 1em;
+}
+
+/* Center the content in the container and remove padding */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px; /* Increased padding for additional spacing */
+    min-height: 100vh;
+    background: var(--white);
+    color: var(--dark-blue);
+}
+
+/* Define common text styles for headings and paragraphs */
+.heading, .p {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px #888888;
+    margin-bottom: 30px; /* Increased margin for more spacing */
+    margin-top: 40px; /* Increased margin for more spacing */
+}
+
+.heading {
+    font-size: 2.8em; /* Increased font size for emphasis */
+    color: var(--light-sporty-blue);
+    margin-top: 40px; /* Increased margin for more spacing */
+
+}
+
+.p {
+    font-size: 1.2em;
+    color: var(--light-sporty-blue);
+    margin-top: 40px; /* Increased margin for more spacing */
+    margin-bottom: 40px; /* Increased margin for more spacing */
+
+}
+
+/* Style the tagline */
+.tagline {
+    margin-bottom: 2em;
+    color: white;
+    opacity: 0.9;
+    font-size: 1.2rem;
+}
+
+/* Style images with a maximum width and automatic height adjustment */
+.home-image {
+    max-width: 250px;
+    height: auto;
+    margin-bottom: 30px; /* Increased margin for more spacing */
+    margin-top: 40px; /* Increased margin for more spacing */
+
+}
+
+/* Define a common button style with transitions */
+button {
+    font-size: 1em;
+    padding: 12px 25px; /* Adjusted padding for better proportion */
+    border: none;
+    border-radius: 8px; /* Softer border radius */
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    background-color: var(--dark-blue);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Style button on hover and focus */
+button:hover {
+    background-color: var(--darker-green);
+    color: #fff;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Define a common animation for container elements */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply the fadeIn animation to the home container */
+.home-container {
+    animation: fadeIn 1s ease-out;
+}
+
+/* Style input elements with a common border and margin */
+input {
+    font-size: 1em;
+    padding: 12px; /* Adjusted padding for better proportion */
+    border: 2px solid #8e8e8e;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 30px; /* Increased margin for more spacing */
+    background-color: transparent;
+    color: #fff;
+}
