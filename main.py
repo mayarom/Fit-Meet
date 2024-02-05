@@ -32,7 +32,7 @@ def create_app(config):
     api.add_namespace(exercise_ns)
     api.add_namespace(auth_ns)
 
-    @app.route("/")
+    @app.route("/") 
     def index():
         return app.send_static_file("index.html")
 

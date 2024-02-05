@@ -4,7 +4,7 @@ import pymysql
 host = "fit-meet-db-fit-meet.a.aivencloud.com"
 user = "avnadmin"
 password = "AVNS_2W0t4LFVzQtm2sPWtaZ"
-database = "your_database_name"  # Change this to the specific database name you've created
+database = "defaultdb"  # Change this to the specific database name you've created
 
 # Establishing a connection to the database
 connection = pymysql.connect(

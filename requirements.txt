@@ -34,3 +34,5 @@ pytz==2021.1
 six==1.16.0
 SQLAlchemy==1.4.22
 Werkzeug==2.0.1
+mysqlclient==2.2.3
+
