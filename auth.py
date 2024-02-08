@@ -311,7 +311,7 @@ class Login(Resource):
             # Print user details to the terminal
             print(f"Logged in user: Username - {db_user.username},  permission - {permission.permissions}")
 
-            response_data = json.dumps({"access_token": access_token, "refresh_token": refresh_token})
+            response_data = json.dumps({"access_token": access_token, "refresh_token": refresh_token, "permissions": permission.permissions})
             return Response(response_data, mimetype='application/json', status=200)
         
         # If the user does not exist or the password is incorrect, return an error message of 401 Unauthorized

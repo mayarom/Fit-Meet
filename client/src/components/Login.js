@@ -10,7 +10,6 @@ const LoginPage = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const history = useHistory();
     const [loginError, setLoginError] = useState(false);
-    const [isTrainer, setIsTrainer] = useState(false); // Parameter name corrected
 
     // Description: Function to handle user login.
     const loginUser = (data) => {
