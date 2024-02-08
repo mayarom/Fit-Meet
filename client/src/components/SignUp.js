@@ -7,14 +7,21 @@ import '../styles/signup.css';
 const SignUpPage = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const [showAlert, setShowAlert] = useState(false);
+
+    // Used to display the server response in an alert
     const [serverResponse, setServerResponse] = useState('');
+
+    // Used to determine which type of alert to show (success or danger)
     const [responseType, setResponseType] = useState('');
+
+    // Used to determine which option is selected in the dropdown of "Who are you?"
     const [selectedOption, setSelectedOption] = useState("");
 
     // List of cities in Israel
     // TODO: Add more cities
-    const cities = 
-                [
+    // TODO: Move this list to a separate file and import it here
+    // TODO: Use the list to populate the city dropdown
+    const cities = [
                     "Acre", "Arad", "Ariel", "Ashdod", "Ashkelon", 
                     "Bat Yam", "Beersheba", "Beit Shemesh", "Beit She'an", "Bnei Brak", 
                     "Dimona", 
@@ -38,8 +45,9 @@ const SignUpPage = () => {
             const requestBody = {
                 ...data
             };
-            delete requestBody.confirmPassword; // Remove confirmPassword from the request body
-            delete requestBody.confirmEmail; // Remove confirmEmail from the request body
+
+            delete requestBody.confirmPassword; // Remove confirmPassword from the request body, as it's not needed on the server side
+            delete requestBody.confirmEmail; // Remove confirmEmail from the request body, as it's not needed on the server side
 
             const requestOptions = {
                 method: "POST",
@@ -101,42 +109,62 @@ const SignUpPage = () => {
                         <p>{serverResponse}</p>
                     </Alert>
                 )}
-                <h1 className="signup-title">Sign Up for Fit & Meet</h1>
+                <h2 className="signup-title mb-3 text-center">Sign Up for Fit & Meet</h2>
                 <Form onSubmit={handleSubmit(submitForm)}>
                     {/* Form fields and controls */}
                     {/* Username */}
                     <Form.Group controlId="formBasicUsername">
                         <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" placeholder="Enter username" {...register("username", { required: true })} />
-                        {errors.username && <p className="error-message">Username is required.</p>}
+                        <Form.Control
+                            type="text"
+                            placeholder="Enter a username"
+                            {...register("username", {
+                                required: "Username field is required.",
+                                minLength: { value: 4, message: "Username must be at least 4 characters long." },
+                                maxLength: { value: 20, message: "Username must be at most 20 characters long." },
+                                pattern: {
+                                    value: /^[a-zA-Z0-9_-]+$/,
+                                    message: "Username can only contain ASCII characters, numbers, '_', and '-'."
+                                }
+                            })}
+                        />
+                        {errors.username && <p className="error-message">{errors.username.message}</p>}
                     </Form.Group>
 
                     {/* Email */}
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" {...register("email", { required: true })} />
-                        {errors.email && <p className="error-message">Email is required.</p>}
+                        <Form.Control type="email" placeholder="Enter your email" {...register("email", { required: true })} />
+                        {errors.email && <p className="error-message">Email field is required.</p>}
                     </Form.Group>
 
-                    { /* Confirm Email */ }
+                    {/* Confirm Email */}
                     <Form.Group controlId="formBasicConfirmEmail">
                         <Form.Label>Confirm Email</Form.Label>
-                        <Form.Control type="email" placeholder="Confirm email" {...register("confirmEmail", { required: true })} />
-                        {errors.confirmEmail && <p className="error-message">Confirm email is required.</p>}
+                        <Form.Control
+                            type="email"
+                            placeholder="Confirm your email"
+                            {...register("confirmEmail", { required: true })}
+                        />
+                        {errors.confirmEmail && <p className="error-message">You must confirm your email.</p>}
                     </Form.Group>
 
                     {/* Password */}
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" placeholder="Enter password" {...register("password", { required: true })} />
-                        {errors.password && <p className="error-message">Password is required.</p>}
+                        {errors.password && <p className="error-message">Please enter a password.</p>}
                     </Form.Group>
                     
                     {/* Confirm Password */}
                     <Form.Group controlId="formBasicConfirmPassword">
                         <Form.Label>Confirm Password</Form.Label>
-                        <Form.Control type="password" placeholder="Confirm password" {...register("confirmPassword", { required: true })} />
-                        {errors.confirmPassword && <p className="error-message">Confirm password is required.</p>}
+                        <Form.Control
+                            type="password"
+                            placeholder="Confirm password"
+                            {...register("confirmPassword", { required: true})}
+                        />
+                        {errors.confirmPassword && <p className="error-message">You must confirm your password.</p>}
                     </Form.Group>
 
                     {/* Phone */}
@@ -150,9 +178,9 @@ const SignUpPage = () => {
                                 const currentValueLength = e.target.value.length;
                                 // Allow only numeric keys, backspace, delete, arrow keys, and navigation keys
                                 if (
-                                    !/^\d$/.test(e.key) && // Allow only numeric keys
-                                    !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key) ||
-                                    currentValueLength >= maxLength && !["Backspace", "Delete"].includes(e.key)
+                                    (!/^\d$/.test(e.key) && // Allow only numeric keys
+                                    !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) ||
+                                    (currentValueLength >= maxLength && !["Backspace", "Delete"].includes(e.key))
                                 ) {
                                     e.preventDefault();
                                 }
@@ -171,15 +199,30 @@ const SignUpPage = () => {
                     {/* Date of Birth */}
                     <Form.Group controlId="formBasicDob">
                         <Form.Label>Date of Birth</Form.Label>
-                        <Form.Control type="date" {...register("dob", { required: true })} />
-                        {errors.dob && <p className="error-message">Date of Birth is required.</p>}
+                        <Form.Control
+                            type="date"
+                            {...register("dob", {
+                                required: "Date of Birth is required.",
+                                validate: value => {
+                                    const currentDate = new Date();
+                                    const dob = new Date(value);
+                                    const minDate = new Date(currentDate.getFullYear() - 100, 0, 1);
+                                    const maxDate = new Date(currentDate.getFullYear() - 18, 0, 1);
+
+                                    return dob >= minDate && dob <= maxDate || "You must be between 18 and 100 years old.";
+                                }
+                            })}
+                            min={(new Date()).getFullYear() - 100 + "-01-01"} // Calculate the minimum allowed date dynamically
+                            max={(new Date()).getFullYear() - 18 + "-12-31"} // Calculate the maximum allowed date dynamically
+                        />
+                        {errors.dob && <p className="error-message">{errors.dob.message}</p>}
                     </Form.Group>
 
                     {/* City */}
                     <Form.Group controlId="formBasicCity">
                         <Form.Label>City</Form.Label>
                         <Form.Select {...register("city", { required: true })}>
-                            <option value="">Select a city</option> {/* Default empty option */}
+                            <option value="" disabled>Select your city</option> {/* Placeholder */}
                             {cities.map((city, index) => (
                                 <option key={index} value={city}>
                                     {city}
@@ -188,6 +231,9 @@ const SignUpPage = () => {
                         </Form.Select>
                         {errors.city && <p className="error-message">City is required.</p>}
                     </Form.Group>
+
+                    {/* Add some spacing between the two Form.Groups */}
+                    <div className="mb-3"></div>
 
                     {/* Is Trainer */}
                     <Form.Group controlId="formBasicIsTrainer">
@@ -204,6 +250,9 @@ const SignUpPage = () => {
                         {errors.permissions && <p className="error-message">Please select your role.</p>}
                     </Form.Group>
 
+                    {/* Add some spacing between the two Form.Groups */}
+                    <div className="mb-3"></div>
+
                     {selectedOption === "trainee" && (
                         <div>
                             {/* Goal */}
@@ -211,7 +260,7 @@ const SignUpPage = () => {
                                 <Form.Label>Goal</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter goal"
+                                    placeholder="Enter your goal as a trainee"
                                     {...register("goal", { required: true })}
                                 />
                                 {errors.goal && <p className="error-message">Goal is required.</p>}
@@ -222,7 +271,7 @@ const SignUpPage = () => {
                                 <Form.Label>Height (m)</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter height (m)"
+                                    placeholder="Enter your height (in meters)"
                                     {...register("height", {
                                         required: true,
                                         pattern: {
@@ -244,7 +293,7 @@ const SignUpPage = () => {
                                 <Form.Label>Weight (kg)</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter weight (kg)"
+                                    placeholder="Enter your weight (in kilograms)"
                                     {...register("weight", {
                                         required: true,
                                         pattern: {
@@ -272,7 +321,7 @@ const SignUpPage = () => {
                                 <Form.Label>Experience</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter experience"
+                                    placeholder="Enter your experience as a trainer (e.g., 5 years, specialized in weight loss)"
                                     {...register("experience", { required: true })}
                                 />
                                 {errors.experience && <p className="error-message">Experience is required.</p>}
@@ -283,22 +332,31 @@ const SignUpPage = () => {
                                 <Form.Label>Paylink</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Enter paylink"
-                                    {...register("paylink", { required: true })}
+                                    placeholder="Enter paylink (e.g., Paybox, Bit, etc.)"
+                                    {...register("paylink", {
+                                        required: true,
+                                        pattern: {
+                                            value: /^(ftp|http|https):\/\/[^ "]+$/,
+                                            message: "Please enter a valid URL."
+                                        }
+                                    })}
                                 />
-                                {errors.paylink && <p className="error-message">Paylink is required.</p>}
+                                {errors.paylink && <p className="error-message">{errors.paylink.message}</p>}
                             </Form.Group>
+
                         </div>
                     )}
 
-                    {/* Submit Button */}
-                    <Button variant="primary" type="submit">Submit</Button>
+                    <div className="text-center">
+                        {/* Submit Button */}
+                        <Button variant="primary" type="submit">Submit</Button>
 
-                    {/* Reset Button */}
-                    <Button variant="secondary" type="reset" onClick={() => reset()}>Reset</Button>
+                        {/* Reset Button */}
+                        <Button variant="secondary" type="reset" onClick={() => reset()}>Reset</Button>
+                    </div>
 
                     {/* Already have an account? */}
-                    <Form.Group className="mt-3">
+                    <Form.Group className="mt-3 text-center">
                         <small>
                             Already have an account? <Link to="/login">Log in</Link>
                         </small>

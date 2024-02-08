@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth, logout } from '../auth'; // Assuming you have an authentication context
+import { useAuth, logoutUser } from '../auth'; // Import logoutUser function instead of logout
 import '../styles/main.css';
 import NavItem from './NavItem'; // Adjust the path to the correct location of NavItem component
 
@@ -12,7 +12,7 @@ const NavBar = () => {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/">
-                    Fit&Meet
+                    <img src="images/logo_74x13.png" alt="Fit & Meet logo" />
                 </Link>
                 <button
                     className="navbar-toggler"
@@ -29,17 +29,16 @@ const NavBar = () => {
                     <ul className="navbar-nav">
                         {logged ? (
                             <>
-                                <NavItem to="/exercises">Exercises History</NavItem>
                                 <NavItem to="/profile">Profile</NavItem>
                                 <NavItem to="/create_exercise">Add Exercises</NavItem>
-                                <NavItem to="/trainers">Trainers</NavItem> {/* Add this link to the Trainers page */}
-                                <NavItem onClick={logout}>Log Out</NavItem>
+                                <NavItem to="/exercises">Exercises History</NavItem>
+                                <NavItem to="/trainers">Trainers</NavItem>
+                                <NavItem onClick={logoutUser}>Log Out</NavItem> {/* Call logoutUser function */}
                             </>
                         ) : (
                             <>
-                                <NavItem to="/">Home</NavItem>
-                                <NavItem to="/signup">Sign Up</NavItem>
                                 <NavItem to="/login">Login</NavItem>
+                                <NavItem to="/signup">Sign Up</NavItem>
                             </>
                         )}
                     </ul>
@@ -50,6 +49,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-
-

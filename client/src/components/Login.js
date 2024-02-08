@@ -33,7 +33,6 @@ const LoginPage = () => {
                     console.log('Username:', username); // Debugging statement
                     sessionStorage.setItem('username', username);
 
-
                     history.push('/');
                 } else {
                     setLoginError(true);
@@ -49,7 +48,7 @@ const LoginPage = () => {
 
     return (
         <div className="container mt-5">
-            <h1 as={Col} md="6" className="mb-3">Login to Fit & Meet</h1>
+            <h2 as={Col} md="6" className="mb-3 text-center">Login to Fit & Meet</h2>
             {loginError && <Alert variant="danger">Invalid username or password</Alert>}
             <form onSubmit={handleSubmit(loginUser)}>
                 <Form.Group controlId="formUsername">
@@ -82,9 +81,13 @@ const LoginPage = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">Login</Button>
+                <div className="text-center">
+                    <Button variant="primary" type="submit">
+                        Login
+                    </Button>
+                </div>
 
-                <Form.Group className="mt-3">
+                <Form.Group className="mt-3 text-center">
                     <small>Do not have an account? <Link to="/signup">Create One</Link></small>
                 </Form.Group>
             </form>
