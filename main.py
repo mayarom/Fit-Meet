@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restx import Api
-from models import User, UserPermission, UserDetails, TraineeDetails, TrainerDetails, UserContact, TrainersExercises, UsersExercises, TrainersReviews
+from models import Users, UsersPermission, UsersDetails, TraineesDetails, TrainersDetails, UsersContact, TrainersExercises, UsersExercises, TrainersReviews
 from exts import db
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -48,12 +48,12 @@ def create_app(config):
     def make_shell_context():
         return {
             "db": db,
-            "User": User,
-            "UserPermission": UserPermission,
-            "UserDetails": UserDetails,
-            "TraineeDetails": TraineeDetails,
-            "TrainerDetails": TrainerDetails,
-            "UserContact": UserContact,
+            "User": Users,
+            "UserPermission": UsersPermission,
+            "UserDetails": UsersDetails,
+            "TraineeDetails": TraineesDetails,
+            "TrainerDetails": TrainersDetails,
+            "UserContact": UsersContact,
             "TrainersExercises": TrainersExercises,
             "UsersExercises": UsersExercises,
             "TrainersReviews": TrainersReviews

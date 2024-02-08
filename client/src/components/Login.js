@@ -19,7 +19,7 @@ const LoginPage = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ...data, is_trainer: isTrainer }), // Parameter name corrected
+            body: JSON.stringify({ ...data})
         };
 
         fetch('/auth/login', requestOptions)
@@ -33,7 +33,7 @@ const LoginPage = () => {
                     const username = data.username || 'User';
                     console.log('Username:', username); // Debugging statement
                     sessionStorage.setItem('username', username);
-                    sessionStorage.setItem('is_trainer', isTrainer); // Parameter name corrected
+
 
                     history.push('/');
                 } else {
@@ -46,11 +46,6 @@ const LoginPage = () => {
             });
 
         reset();
-    };
-
-    // Description: Function to handle the trainer checkbox change.
-    const handleTrainerCheckboxChange = () => {
-        setIsTrainer(!isTrainer); // Parameter name corrected
     };
 
     return (
@@ -88,22 +83,10 @@ const LoginPage = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group controlId="formTrainerCheckbox">
-                    <Form.Check
-                        type="checkbox"
-                        label="I'm a trainer"
-                        onChange={handleTrainerCheckboxChange}
-                    />
-                </Form.Group>
-
-                <Button variant="primary" type="submit">
-                    Login
-                </Button>
+                <Button variant="primary" type="submit">Login</Button>
 
                 <Form.Group className="mt-3">
-                    <small>
-                        Do not have an account? <Link to="/signup">Create One</Link>
-                    </small>
+                    <small>Do not have an account? <Link to="/signup">Create One</Link></small>
                 </Form.Group>
             </form>
         </div>
