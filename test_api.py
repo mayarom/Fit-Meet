@@ -2,7 +2,7 @@ import unittest
 from main import create_app
 from config import TestConfig
 from exts import db
-from models import User  # Import the User model from models.py
+from models import Users  # Import the User model from models.py
 
 class APITestCase(unittest.TestCase):
     def setUp(self):

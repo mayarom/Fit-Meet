@@ -33,7 +33,7 @@ const Profile = ({ showModalFn }) => {
         const fetchUserData = async () => {
             try {
                 console.log("Fetching user data from the database...");
-                const response = await fetch(`/api/getUserData/${user.userID}`); // Replace with your API endpoint for fetching user data
+                const response = await fetch(`/auth/profile/${user.userID}`); // Replace with your API endpoint for fetching user data
 
                 console.log("After fetching user data...");
 
@@ -109,7 +109,6 @@ const Profile = ({ showModalFn }) => {
                         <p><strong>Email:</strong> {user.email}</p>
                         <p><strong>Age:</strong> {user.age}</p>
                         <p><strong>City:</strong> {user.city}</p>
-                        <p><strong>Goal:</strong> {user.goal}</p>
                         {user.permissions === 'trainer' ? (
                             <>
                                 <p><strong>Experience:</strong> {user.experience}</p>

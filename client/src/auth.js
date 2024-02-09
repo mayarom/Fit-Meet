@@ -44,8 +44,9 @@ export const loginUser = (username, password) => {
 };
 
 export const logoutUser = () => {
-    logout();
+    // Remove tokens, username, and permissions from local storage
     localStorage.removeItem('username');
+    logout();
 };
 
 // Function to fetch user profile

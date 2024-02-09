@@ -10,11 +10,6 @@ exercise_model = exercise_ns.model(
     "Exercise", {"id": fields.Integer(), "title": fields.String(), "description": fields.String()}
 )
 
-@exercise_ns.route("/hello")
-class HelloResource(Resource):
-    def get(self):
-        return {"message": "Hello World"}
-
 @exercise_ns.route("/exercises")
 class ExercisesResource(Resource):
     @exercise_ns.marshal_list_with(exercise_model)
