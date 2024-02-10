@@ -20,7 +20,7 @@ def create_app(config):
     logging.basicConfig(level=logging.INFO)
 
     if app.config["ENV"] == "production":
-        CORS(app, resources={r"/api/*": {"origins": "https://yourdomain.com"}})
+        CORS(app, resources={r"/api/*": {"origins": "https://localhost:5001"}})
     else:
         CORS(app)
 
