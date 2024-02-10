@@ -14,12 +14,6 @@ class APITestCase(unittest.TestCase):
             db.init_app(self.app)
             db.create_all()
 
-    def test_hello_world(self):
-        # Test the "Hello World" endpoint
-        hello_response = self.client.get("/exercise/hello")
-        json = hello_response.json
-        self.assertEqual(json, {"message": "Hello World"})
-
     def test_signup(self):
         # Test the user signup endpoint
         signup_response = self.client.post(
@@ -27,13 +21,14 @@ class APITestCase(unittest.TestCase):
             json={
                 "username": "testuser",
                 "email": "testuser@test.com",
-                "password": "password",
-                "age": 25,
+                "password": "password1234",
+                "dob": "1996-01-01",
                 "city": "Tel Aviv",
                 "goal": "lose weight",
-                "experience": "beginner",
-                "phone": "050-1234567",
+                "phone": "0501234567",
                 "permissions": "trainee",  # Updated to match the UserPermission model
+                "height": 1.75,
+                "weight": 80.0
             },
         )
         status_code = signup_response.status_code
@@ -46,19 +41,20 @@ class APITestCase(unittest.TestCase):
             json={
                 "username": "testuser",
                 "email": "testuser@test.com",
-                "password": "password",
-                "age": 25,
+                "password": "password1234",
+                "dob": "1996-01-01",
                 "city": "Tel Aviv",
                 "goal": "lose weight",
-                "experience": "beginner",
-                "phone": "050-1234567",
+                "phone": "0501234567",
                 "permissions": "trainee",  # Updated to match the UserPermission model
+                "height": 1.75,
+                "weight": 80.0
             },
         )
 
         login_response = self.client.post(
             "/auth/login",
-            json={"username": "testuser", "password": "password"},
+            json={"username": "testuser", "password": "password1234"},
         )
 
         status_code = login_response.status_code

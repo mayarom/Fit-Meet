@@ -11,7 +11,7 @@ import logging
 import os
 
 def create_app(config):
-    app = Flask(__name__, static_url_path="/", static_folder="./client/build")
+    app = Flask(__name__, static_url_path="/", static_folder="../client/build")
     app.config.from_object(config)
 
     if not app.config['SECRET_KEY']:
