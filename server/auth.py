@@ -67,7 +67,7 @@ user_basic_details_model = user_ns.model(
         "username": fields.String(description="The user's username"),
         "dob": fields.Date(description="Date of Birth"),
         "city": fields.String(description="The user's city"),
-        "is_trainer": fields.Boolean(description="Is trainer")
+        "permissions": fields.String(description="The user's permissions")
     }
 )
 
@@ -119,7 +119,7 @@ user_combined_model = user_ns.model(
 )
 
 # Create a resource for retrieving user profiles
-@user_ns.route("/profile/<int:user_id>")
+""" @user_ns.route("/profile/<int:user_id>")
 class UserProfile(Resource):
     @user_ns.marshal_with(user_combined_model)
     def get(self, user_id):
@@ -178,6 +178,73 @@ class UserProfile(Resource):
             else:
                 print(f"User not found in the database: {user_id}")
                 return {"message": "User not found, are you sure this user exists?"}, 404
+        except Exception as e:
+            print(f"Error retrieving user profile: {str(e)}")
+            return {"message": "Error loading user data, server failure, brain overload"}, 500 """
+        
+@auth_ns.route("/profile")
+class Profile(Resource):
+    @jwt_required()
+    @user_ns.marshal_with(user_combined_model)
+    def get(self):
+        try:
+            # Retrieve the user profile from the database
+            username = get_jwt_identity()
+            user = Users.query.filter_by(username=username).first()
+            if user:
+                print(f"User profile retrieved successfully: {user.username}")
+
+                RetUserBasicDetail = UsersDetails.query.filter_by(userID=user.userID).first()
+                RetUserContactDetail = UsersContact.query.filter_by(userID=user.userID).first()
+                RetUserPermissionDetail = UsersPermission.query.filter_by(userID=user.userID).first()
+
+                RetTraineeDetail = None
+                RetTrainerDetail = None
+                RetTrainersReviews = None
+
+                if RetUserPermissionDetail.permissions == "trainee":                
+                    RetTraineeDetail = TraineesDetails.query.filter_by(userID=user.userID).first()
+
+                elif RetUserPermissionDetail.permissions == "trainer":
+                    RetTrainerDetail = TrainersDetails.query.filter_by(userID=user.userID).first()
+                    RetTrainersReviews = TrainersReviews.query.filter_by(trainerID=user.userID).all()
+
+                combined_details = {
+                    "basic_details": {
+                        "username": user.username,
+                        "dob": RetUserBasicDetail.dob,
+                        "city": RetUserBasicDetail.city,
+                        "permissions": RetUserPermissionDetail.permissions
+                    },
+                    "contact_details": {
+                        "email": RetUserContactDetail.email,
+                        "phone": RetUserContactDetail.phone
+                    },
+                    "trainee_details": {
+                        "goal": RetTraineeDetail.goal,
+                        "height": RetTraineeDetail.height,
+                        "weight": RetTraineeDetail.weight
+                    } if RetTraineeDetail else None,
+                    "trainer_details": {
+                        "experience": RetTrainerDetail.experience,
+                        "paylink": RetTrainerDetail.paylink
+                    } if RetTrainerDetail else None,
+                    "trainer_reviews": [
+                    {
+                        "trainer_id": review.trainerID,
+                        "user_id": review.userID,
+                        "stars": review.review_stars,
+                        "description": review.review_description
+                    } for review in RetTrainersReviews
+                ] if RetTrainersReviews else None
+
+                }
+                    
+                return combined_details, 200
+            else:
+                print(f"User not found in the database: {user.username}")
+                return {"message": "Fatal error, can't find user in the database"}, 404
+            
         except Exception as e:
             print(f"Error retrieving user profile: {str(e)}")
             return {"message": "Error loading user data, server failure, brain overload"}, 500
