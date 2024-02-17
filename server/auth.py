@@ -129,6 +129,18 @@ change_password_model = auth_ns.model(
     }
 )
 
+edit_profile_model = auth_ns.model(
+    "EditProfile",
+    {
+        "message": fields.String(description="A message to describe the result of the operation"),
+        "success": fields.Boolean(description="A boolean to indicate if the operation was successful"),
+        "basic_details": fields.Nested(user_basic_details_model),
+        "contact_details": fields.Nested(user_contact_details_model),
+        "trainee_details": fields.Nested(trainee_details_model),
+        "trainer_details": fields.Nested(trainer_details_model)
+    }
+)
+
 # Create a resource for retrieving user profiles
 @user_ns.route("/profile/<int:userid>")
 class UserProfile(Resource):
@@ -423,6 +435,43 @@ class ChangePassword(Resource):
             print(f"User {username} provided an invalid old password for changing password")
             response_data = json.dumps({"message": "Invalid old password", "success": False})
             return Response(response_data, mimetype='application/json', status=401)
+        
+@auth_ns.route("/edit-profile")
+class EditProfile(Resource):
+    @jwt_required()
+    @auth_ns.expect(edit_profile_model)
+    def post(self):
+        data = request.get_json()
+        username = get_jwt_identity()
+        db_user = Users.query.filter_by(username=username).first()
+
+        if db_user:
+            # Update the user's basic details
+            db_user_details = UsersDetails.query.filter_by(userID=db_user.userID).first()
+            db_user_contact = UsersContact.query.filter_by(userID=db_user.userID).first()
+            db_user_permission = UsersPermission.query.filter_by(userID=db_user.userID).first()
+
+            db_user_details.dob = data.get("dob")
+            db_user_details.city = data.get("city")
+            db_user_contact.email = data.get("email")
+            db_user_contact.phone = data.get("phone")
+
+            if db_user_permission.permissions == "trainee":
+                db_trainee_details = TraineesDetails.query.filter_by(userID=db_user.userID).first()
+                db_trainee_details.goal = data.get("goal")
+                db_trainee_details.height = data.get("height")
+                db_trainee_details.weight = data.get("weight")
+            elif db_user_permission.permissions == "trainer":
+                db_trainer_details = TrainersDetails.query.filter_by(userID=db_user.userID).first()
+                db_trainer_details.experience = data.get("experience")
+                db_trainer_details.paylink = data.get("paylink")
+
+            db.session.commit()
+            response_data = json.dumps({"message": "User profile updated successfully", "success": True})
+            return Response(response_data, mimetype='application/json', status=200)
+        else:
+            response_data = json.dumps({"message": "User not found", "success": False})
+            return Response(response_data, mimetype='application/json', status=404)
 
 @auth_ns.route("/refresh")
 class RefreshResource(Resource):
