@@ -1,5 +1,6 @@
+import stat
 from tkinter import N
-from flask import Flask, Response, request, json
+from flask import Flask, Response, jsonify, request, json
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
 from flask_restx import Namespace, Resource, fields
@@ -110,6 +111,8 @@ trainer_review_model = user_ns.model(
 user_combined_model = user_ns.model(
     "UserCombinedDetails",
     {
+        "message": fields.String(description="A message to describe the result of the operation"),
+        "success": fields.Boolean(description="A boolean to indicate if the operation was successful"),
         "basic_details": fields.Nested(user_basic_details_model),
         "contact_details": fields.Nested(user_contact_details_model),
         "trainee_details": fields.Nested(trainee_details_model),
@@ -118,38 +121,48 @@ user_combined_model = user_ns.model(
     }
 )
 
+change_password_model = auth_ns.model(
+    "ChangePassword",
+    {
+        "old_password": fields.String(required=True, description="The user's old password"),
+        "new_password": fields.String(required=True, description="The user's new password")
+    }
+)
+
 # Create a resource for retrieving user profiles
-""" @user_ns.route("/profile/<int:user_id>")
+@user_ns.route("/profile/<int:userid>")
 class UserProfile(Resource):
     @user_ns.marshal_with(user_combined_model)
-    def get(self, user_id):
+    def get(self, userid):
         try:
             # Retrieve the user profile from the database
-            user = Users.query.get(user_id)
+            user = Users.query.get(userid)
             if user:
                 print(f"User profile retrieved successfully: {user.username}")
 
-                RetUserBasicDetail = UsersDetails.query.filter_by(userID=user_id).first()
-                RetUserContactDetail = UsersContact.query.filter_by(userID=user_id).first()
-                RetUserPermissionDetail = UsersPermission.query.filter_by(userID=user_id).first()
+                RetUserBasicDetail = UsersDetails.query.filter_by(userID=userid).first()
+                RetUserContactDetail = UsersContact.query.filter_by(userID=userid).first()
+                RetUserPermissionDetail = UsersPermission.query.filter_by(userID=userid).first()
 
                 RetTraineeDetail = None
                 RetTrainerDetail = None
                 RetTrainersReviews = None
 
                 if RetUserPermissionDetail.permissions == "trainee":                
-                    RetTraineeDetail = TraineesDetails.query.filter_by(userID=user_id).first()
+                    RetTraineeDetail = TraineesDetails.query.filter_by(userID=userid).first()
 
                 elif RetUserPermissionDetail.permissions == "trainer":
-                    RetTrainerDetail = TrainersDetails.query.filter_by(userID=user_id).first()
-                    RetTrainersReviews = TrainersReviews.query.filter_by(trainerID=user_id).all()
+                    RetTrainerDetail = TrainersDetails.query.filter_by(userID=userid).first()
+                    RetTrainersReviews = TrainersReviews.query.filter_by(trainerID=userid).all()
 
                 combined_details = {
+                    "message": "User profile retrieved successfully",
+                    "success": True,
                     "basic_details": {
                         "username": user.username,
                         "dob": RetUserBasicDetail.dob,
                         "city": RetUserBasicDetail.city,
-                        "is_trainer": RetUserPermissionDetail.permissions == "trainer" 
+                        "permissions": RetUserPermissionDetail.permissions
                     },
                     "contact_details": {
                         "email": RetUserContactDetail.email,
@@ -159,28 +172,28 @@ class UserProfile(Resource):
                         "goal": RetTraineeDetail.goal,
                         "height": RetTraineeDetail.height,
                         "weight": RetTraineeDetail.weight
-                    } if RetUserPermissionDetail.permissions == "trainee" else None,
+                    } if RetTraineeDetail else None,
                     "trainer_details": {
                         "experience": RetTrainerDetail.experience,
                         "paylink": RetTrainerDetail.paylink
-                    } if RetUserPermissionDetail.permissions == "trainer" else None,
+                    } if RetTrainerDetail else None,
                     "trainer_reviews": [
-                        {
-                            "trainer_id": review.trainerID,
-                            "user_id": review.userID,
-                            "stars": review.review_stars,
-                            "description": review.review_description
-                        } for review in RetTrainersReviews
-                    ] if RetUserPermissionDetail.permissions == "trainer" else None
+                    {
+                        "trainer_id": review.trainerID,
+                        "user_id": review.userID,
+                        "stars": review.review_stars,
+                        "description": review.review_description
+                    } for review in RetTrainersReviews
+                ] if RetTrainersReviews else None
                 }
                 
                 return combined_details, 200
             else:
-                print(f"User not found in the database: {user_id}")
-                return {"message": "User not found, are you sure this user exists?"}, 404
+                print(f"User not found in the database: {userid}")
+                return {"message": "User not found, are you sure this user exists?", "success": False}, 404
         except Exception as e:
             print(f"Error retrieving user profile: {str(e)}")
-            return {"message": "Error loading user data, server failure, brain overload"}, 500 """
+            return {"message": "Error loading user data, server failure, brain overload", "success": False}, 500
         
 @auth_ns.route("/profile")
 class Profile(Resource):
@@ -237,7 +250,6 @@ class Profile(Resource):
                         "description": review.review_description
                     } for review in RetTrainersReviews
                 ] if RetTrainersReviews else None
-
                 }
                     
                 return combined_details, 200
@@ -384,6 +396,32 @@ class Login(Resource):
         # If the user does not exist or the password is incorrect, return an error message of 401 Unauthorized
         else:
             response_data = json.dumps({"message": "Invalid username or password"})
+            return Response(response_data, mimetype='application/json', status=401)
+        
+@auth_ns.route("/change-password")
+class ChangePassword(Resource):
+    @jwt_required()
+    @auth_ns.expect(change_password_model)
+    def post(self):
+        data = request.get_json()
+        username = get_jwt_identity()
+        old_password = data.get("old_password")
+
+        # Check if the old password is correct
+        db_user = Users.query.filter_by(username=username).first()
+
+        if db_user and check_password_hash(db_user.password, old_password):
+            new_password = data.get("new_password")
+            db_user.password = generate_password_hash(new_password)
+            db.session.commit()
+            response_data = json.dumps({"message": "Password changed successfully", "success": True})
+            # Print details to the terminal
+            print(f"Password changed successfully for user: {username}")
+            return Response(response_data, mimetype='application/json', status=200)
+        
+        else:
+            print(f"User {username} provided an invalid old password for changing password")
+            response_data = json.dumps({"message": "Invalid old password", "success": False})
             return Response(response_data, mimetype='application/json', status=401)
 
 @auth_ns.route("/refresh")

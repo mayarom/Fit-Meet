@@ -22,6 +22,18 @@ const App = () => {
                     <Route path="/profile">
                         <Profile/> {/* Render the Profile component when URL matches '/profile' */}
                     </Route>
+                    <Route path="/change-password">
+                        <Profile/> {/* Render the Profile component when URL matches '/change-password' */}
+                    </Route>
+                    <Route path="/edit-profile">
+                        <Profile/> {/* Render the Profile component when URL matches '/edit-profile' */}
+                    </Route>
+                    <Route path="/delete-account">
+                        <Profile/> {/* Render the Profile component when URL matches '/delete-account' */}
+                    </Route>
+                    <Route path="/profile/:userid">
+                        <Profile/> {/* Render the Profile component when URL matches '/profile/:userid' */}
+                    </Route>
                     <Route path="/create_exercise">
                         <CreateExercisePage/> {/* Render the CreateExercisePage component when URL matches '/create_exercise' */}
                     </Route>
