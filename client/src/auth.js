@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createAuthProvider } from 'react-token-auth';
 
 export const [useAuth, authFetch, login, logout] = createAuthProvider({
@@ -44,9 +45,11 @@ export const loginUser = (username, password) => {
 };
 
 export const logoutUser = () => {
-    // Remove tokens, username, and permissions from local storage
-    localStorage.removeItem('username');
     logout();
+    localStorage.removeItem('REACT_TOKEN_AUTH_KEY');
+
+    // Redirect the user to the home page after logout
+    window.location.href = '/';
 };
 
 // Function to fetch user profile
