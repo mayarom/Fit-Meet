@@ -11,6 +11,8 @@ import LoginPage from './components/Login'; // Import the LoginPage component
 import CreateExercisePage from './components/CreateExercise'; // Import the CreateExercisePage component
 import Profile from './components/Profile'; // Import the Profile component
 import ExercisePage from './components/Exercise'; // Import the ExercisePage component
+import TraineesPage from './components/Trainees'; // Import the TraineesPage component
+import AdminPage from './components/Admin'; // Import the AdminPage component
 
 // App component that defines the structure of the application
 const App = () => {
@@ -45,6 +47,15 @@ const App = () => {
                     </Route>    
                     <Route path="/exercises">
                         <ExercisePage/> {/* Render the ExercisePage component when URL matches '/exercises' */}
+                    </Route>
+                    <Route path="/trainees">
+                        <TraineesPage/> {/* Render the traineesPage component when URL matches '/trainees' */}
+                    </Route>
+                    <Route path="/admin">
+                        <AdminPage/> {/* Render the AdminPage component when URL matches '/admin' */}
+                    </Route>
+                    <Route path="/admin/list">
+                        <AdminPage/> {/* Render the AdminPage component when URL matches '/admin/list' */}
                     </Route>
                     <Route path="/">
                         <HomePage/> {/* Render the HomePage component for the default route '/' */}

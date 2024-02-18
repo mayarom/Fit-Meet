@@ -875,7 +875,7 @@ const UserProfileComponent = () => {
                         }
 
                         <div className="text-center">
-                            <Button href="/profile">Back to Profile</Button>
+                            <Button onClick={() => window.history.back()}>Back</Button>
                         </div>
                     </Card>
                 </Col>

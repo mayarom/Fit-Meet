@@ -39,7 +39,7 @@ const NavBar = () => {
                     console.error('Fetch permissions error:', error);
                 });
         }
-    });
+    }, [logged]);
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -77,6 +77,13 @@ const NavBar = () => {
                                     <NavItem to="/trainees">Trainees</NavItem>
                                     </>
                                 }
+
+                                {permissions && permissions === 'admin' &&
+                                    <>
+                                    <NavItem to="/admin">Control Panel</NavItem>
+                                    </>
+                                }
+                                
                                 <NavItem onClick={logoutUser}>Log Out</NavItem> {/* Call logoutUser function */}
                             </>
                         ) : (
