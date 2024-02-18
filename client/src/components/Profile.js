@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Route, Switch, useParams, Link, useHistory } from 'react-router-dom';
 import { Form, Button, Alert, Container, Row, Col, Card } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { login } from '../auth';
+import { login, logoutUser } from '../auth';
 import '../styles/main.css';
 
 const ProfilePage = () => {
@@ -169,7 +169,6 @@ const ProfileComponent = () => {
                             <Button href="/change-password">Change Password</Button>
                             <Button href="/delete-account">Delete Account</Button>
                         </div>
-
                     </Card>
                 </Col>
             </Row>
@@ -632,9 +631,20 @@ const ChangePasswordComponent = () => {
                         {errors.confirm_password && errors.confirm_password.type === "maxLength" && <p>Password cannot exceed 25 characters</p>}
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                    Change Password
-                </Button>
+
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Button variant="primary" type="submit">
+                        Change Password
+                    </Button>
+
+                    <Button variant="secondary" onClick={() => reset()}>
+                        Reset
+                    </Button>
+
+                    <Button variant="danger" onClick={() => history.push('/profile')}>
+                        Cancel
+                    </Button>
+                </div>
             </form>
         </div>
     );
@@ -642,23 +652,66 @@ const ChangePasswordComponent = () => {
 
 // Description: This component provides a delete account form for users to delete their account.
 const DeleteAccountComponent = () => {
+    const history = useHistory();
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+        document.title = 'Fit & Meet | Delete Account';
+    }, []);
+
+    const deleteAccount = (e) => {
+        e.preventDefault();
+        const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
+
+        fetch('/auth/delete-account', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${JSON.parse(token)}`
+            }
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('API Response Data:', data); // Debugging statement
+                if (data.success) {
+                    localStorage.removeItem('REACT_TOKEN_AUTH_KEY');
+                    setSuccess(true);
+                    setTimeout(() => {
+                        history.push('/');
+                    }, 3000);
+                } else {
+                    setError(true);
+                }
+            })
+            .catch((error) => {
+                console.error('Account deletion failed:', error);
+                setError(true);
+            });
+    }
+
     return (
         <Container>
             <Row>
                 <h1 className="text-center">Delete Account</h1>
+                {error && <Alert variant="danger">Account deletion failed. Please try again later.</Alert>}
+                {success && <Alert variant="success">Account deleted successfully</Alert>}
                 <Col>
                     <Card>
-                        <Card.Body>
-                            <Card.Text>
-                                <Alert variant="info">This feature is coming soon!</Alert>
-                            </Card.Text>
-                        </Card.Body>
                         <Card.Body>
                             <Card.Title>Careful!</Card.Title>
                             <Card.Text>
                                 <p>Are you sure you want to delete your account?</p>
                                 <p>This action cannot be undone.</p>
-                                <Button variant="danger">Delete Account</Button>
+                                <div className="d-flex">
+                                    <Button variant="danger" type="submit" onClick={deleteAccount}>
+                                        Delete Account
+                                    </Button>
+
+                                    <Button variant="secondary" href="/profile">
+                                        Cancel
+                                    </Button>
+                                </div>
                             </Card.Text>
                         </Card.Body>
                     </Card>
@@ -688,8 +741,16 @@ const UserProfileComponent = () => {
     useEffect(() => {
         if (prevUserIdRef.current !== userid) {
             setIsLoading(true); // Start loading
-    
-            fetch(`/auth/profile/${userid}`)
+
+            const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
+            
+            fetch(`/auth/profile/${userid}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${JSON.parse(token)}`
+                }
+            })
                 .then(res => {
                     if (!res.ok) {
                         throw new Error('Network response was not ok');
@@ -741,9 +802,10 @@ const UserProfileComponent = () => {
                         <Card>
                             <Card.Body>
                                 <Card.Title>User not found</Card.Title>
-                                <Card.Text>
-                                    <p>User not found</p>
-                                </Card.Text>
+                                <Alert variant="danger">User not found</Alert>
+                            </Card.Body>
+                            <Card.Body className="text-center">
+                                <Button href="/profile">Back to Profile</Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -811,6 +873,10 @@ const UserProfileComponent = () => {
                             </Card.Body>
                             : null
                         }
+
+                        <div className="text-center">
+                            <Button href="/profile">Back to Profile</Button>
+                        </div>
                     </Card>
                 </Col>
             </Row>

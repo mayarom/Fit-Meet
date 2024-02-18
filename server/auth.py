@@ -142,19 +142,24 @@ edit_profile_model = auth_ns.model(
 )
 
 # Create a resource for retrieving user profiles
-@user_ns.route("/profile/<int:userid>")
+@auth_ns.route("/profile/<int:userid>")
 class UserProfile(Resource):
+    @jwt_required()
     @user_ns.marshal_with(user_combined_model)
     def get(self, userid):
         try:
+            username = get_jwt_identity()
             # Retrieve the user profile from the database
             user = Users.query.get(userid)
+            
             if user:
-                print(f"User profile retrieved successfully: {user.username}")
-
                 RetUserBasicDetail = UsersDetails.query.filter_by(userID=userid).first()
                 RetUserContactDetail = UsersContact.query.filter_by(userID=userid).first()
                 RetUserPermissionDetail = UsersPermission.query.filter_by(userID=userid).first()
+
+                if not RetUserBasicDetail or not RetUserContactDetail or not RetUserPermissionDetail:
+                    print(f"DB error, user {userid} details not found in the database, corrupted data, registered user with incomplete details")
+                    return Response(json.dumps({"message": "Fatal error, user details not found in the database", "success": False}), mimetype='application/json', status=500)
 
                 RetTraineeDetail = None
                 RetTrainerDetail = None
@@ -190,22 +195,24 @@ class UserProfile(Resource):
                         "paylink": RetTrainerDetail.paylink
                     } if RetTrainerDetail else None,
                     "trainer_reviews": [
-                    {
-                        "trainer_id": review.trainerID,
-                        "user_id": review.userID,
-                        "stars": review.review_stars,
-                        "description": review.review_description
-                    } for review in RetTrainersReviews
-                ] if RetTrainersReviews else None
+                        {
+                            "trainer_id": review.trainerID,
+                            "user_id": review.userID,
+                            "stars": review.review_stars,
+                            "description": review.review_description
+                        } for review in RetTrainersReviews
+                    ] if RetTrainersReviews else None
                 }
-                
+
+                print(f"User profile retrieved successfully: {user.username}")
+
                 return combined_details, 200
             else:
                 print(f"User not found in the database: {userid}")
-                return {"message": "User not found, are you sure this user exists?", "success": False}, 404
+                return Response(json.dumps({"message": "Fatal error, can't find user in the database", "success": False}), mimetype='application/json', status=404)
         except Exception as e:
             print(f"Error retrieving user profile: {str(e)}")
-            return {"message": "Error loading user data, server failure, brain overload", "success": False}, 500
+            return Response(json.dumps({"message": "Error loading user data, server failure, brain overload", "success": False}), mimetype='application/json', status=500)
         
 @auth_ns.route("/profile")
 class Profile(Resource):
@@ -481,3 +488,58 @@ class RefreshResource(Resource):
         new_access_token = create_access_token(identity=current_user)
         response_data = json.dumps({"access_token": new_access_token})
         return Response(response_data, mimetype='application/json')
+    
+@auth_ns.route("/delete-account")
+class DeleteAccount(Resource):
+    @jwt_required()
+    def delete(self):
+        username = get_jwt_identity()
+        db_user = Users.query.filter_by(username=username).first()
+
+        if db_user:
+            db_user_details = UsersDetails.query.filter_by(userID=db_user.userID).first()
+            db_user_contact = UsersContact.query.filter_by(userID=db_user.userID).first()
+            db_user_permission = UsersPermission.query.filter_by(userID=db_user.userID).first()
+            db_user_trainee = TraineesDetails.query.filter_by(userID=db_user.userID).first()
+            db_user_trainer = TrainersDetails.query.filter_by(userID=db_user.userID).first()
+
+            if db_user_details:
+                db.session.delete(db_user_details)
+
+            if db_user_contact:
+                db.session.delete(db_user_contact)
+
+            if db_user_permission:
+                db.session.delete(db_user_permission)
+
+            if db_user_trainee:
+                db.session.delete(db_user_trainee)
+
+            if db_user_trainer:
+                db.session.delete(db_user_trainer)
+
+            db.session.delete(db_user)
+            db.session.commit()
+
+            print(f"User account deleted successfully: {username}")
+
+            response_data = json.dumps({"message": "User account deleted successfully", "success": True})
+            return Response(response_data, mimetype='application/json', status=200)
+        else:
+            response_data = json.dumps({"message": "User not found", "success": False})
+            return Response(response_data, mimetype='application/json', status=404)
+        
+@auth_ns.route("/get-permissions")
+class GetPermissions(Resource):
+    @jwt_required()
+    def get(self):
+        username = get_jwt_identity()
+        db_user = Users.query.filter_by(username=username).first()
+
+        if db_user:
+            db_user_permission = UsersPermission.query.filter_by(userID=db_user.userID).first()
+            response_data = json.dumps({"permissions": db_user_permission.permissions})
+            return Response(response_data, mimetype='application/json', status=200)
+        else:
+            response_data = json.dumps({"message": "User not found", "success": False})
+            return Response(response_data, mimetype='application/json', status=404)
