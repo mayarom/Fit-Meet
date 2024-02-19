@@ -110,7 +110,7 @@ const AdminListComponent = () => {
             return;
         }
 
-        fetch('/auth/users-list', {
+        fetch('/lists/users-list', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

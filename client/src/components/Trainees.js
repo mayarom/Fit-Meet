@@ -39,7 +39,7 @@ const TraineesPage = () => {
                 }
 
                 // Now fetch the data of the trainees.
-                fetch('/auth/trainees-list', {
+                fetch('/lists/trainees-list', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

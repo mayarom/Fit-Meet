@@ -6,6 +6,8 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from exercises import exercise_ns
 from auth import auth_ns
+from profile_api import profile_ns
+from lists_api import lists_ns
 from flask_cors import CORS
 import logging
 import os
@@ -31,6 +33,8 @@ def create_app(config):
     api = Api(app, version='1.0', title='My API', description='A simple API', doc="/docs")
     api.add_namespace(exercise_ns)
     api.add_namespace(auth_ns)
+    api.add_namespace(profile_ns)
+    api.add_namespace(lists_ns)
 
     @app.route("/") 
     def index():
