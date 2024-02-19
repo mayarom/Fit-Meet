@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, create_refresh_token, get_jwt_identity, jwt_required
 from flask_restx import Namespace, Resource, fields
 from exts import db
-from models import TrainersReviews, Users, UsersDetails, TraineesDetails, TrainersDetails, UsersContact, UsersPermission
+from models import TrainersReviews, Users, UsersDetails, TraineesDetails, TrainersDetails, UsersContact, UsersPermission, UsersExercises, TrainersExercises
 
 lists_ns = Namespace('lists', description='Lists of users and trainees')
 
@@ -41,6 +41,34 @@ class TraineesList(Resource):
 
         # Return the list in JSON format
         return Response(json.dumps(trainees_list), mimetype='application/json', status=200)
+    
+@lists_ns.route('/trainers-list')
+class TrainersList(Resource):
+    @jwt_required()
+    def get(self):
+        # Query the database to fetch all users with permissions of 'trainer'
+        trainers = Users.query.join(Users.permissions).filter_by(permissions='trainer').all()
+
+        # Assemble the fetched data into a list of dictionaries
+        trainers_list = []
+        
+        for trainer in trainers:
+            # Retrieve details from UsersDetails and UsersContact models
+            details = UsersDetails.query.filter_by(userID=trainer.userID).first()
+            contact = UsersContact.query.filter_by(userID=trainer.userID).first()
+            
+            # Assemble user details into a dictionary
+            trainer_details = {
+                'id': trainer.userID,
+                'name': trainer.username,
+                'city': details.city if details else None,
+                'email': contact.email if contact else None,
+                'phone': contact.phone if contact else None
+            }
+            trainers_list.append(trainer_details)
+
+        # Return the list in JSON format
+        return Response(json.dumps(trainers_list), mimetype='application/json', status=200)
     
 @lists_ns.route('/users-list')
 class UsersList(Resource):
@@ -80,3 +108,66 @@ class UsersList(Resource):
 
         # Return the list in JSON format
         return Response(json.dumps(users_list), mimetype='application/json', status=200)
+    
+
+@lists_ns.route('/trainees-list/registered')
+class TraineesListRegistered(Resource):
+    @jwt_required()
+    def get(self):
+        curr_user = get_jwt_identity()
+
+        curr_user_id = Users.query.filter_by(username=curr_user).first().userID
+
+        if not curr_user_id:
+            return Response(json.dumps({"message": "User not found", "success": False}), mimetype='application/json', status=404)
+        
+        curr_user_permissions = UsersPermission.query.filter_by(userID=curr_user_id).first()
+
+        if not curr_user_permissions:
+            return Response(json.dumps({"message": "User permissions not found", "success": False}), mimetype='application/json', status=404)
+        
+        elif curr_user_permissions.permissions != "trainer":
+            return Response(json.dumps({"message": "You do not have permission to access this resource", "success": False}), mimetype='application/json', status=403)
+        
+        # Query the database to fetch all users with permissions of 'trainee'
+        trainees = Users.query.join(Users.permissions).filter_by(permissions='trainee').all()
+
+        # Assemble the fetched data into a list of dictionaries
+        trainees_list = []
+        
+        for trainee in trainees:
+            # Check if the trainee is registered to any of the trainer's exercises
+            trainee_exercises = UsersExercises.query.filter_by(userID=trainee.userID).all()
+
+            exercise_list = []
+
+            for exercise in trainee_exercises:
+                trainer_id = TrainersExercises.query.filter_by(exerciseID=exercise.exerciseID).first().userID
+
+                if trainer_id == curr_user_id:
+                    exercise_data = TrainersExercises.query.filter_by(exerciseID=exercise.exerciseID).first()
+                    exercise_list.append({
+                        'id': exercise_data.exerciseID,
+                        'name': exercise_data.name,
+                        'date': exercise_data.date,
+                        'description': exercise_data.description
+                    })
+
+            if len(exercise_list) > 0:
+                # Retrieve details from UsersDetails and UsersContact models
+                details = UsersDetails.query.filter_by(userID=trainee.userID).first()
+                contact = UsersContact.query.filter_by(userID=trainee.userID).first()
+                
+                # Assemble user details into a dictionary
+                trainee_details = {
+                    'id': trainee.userID,
+                    'name': trainee.username,
+                    'city': details.city if details else None,
+                    'email': contact.email if contact else None,
+                    'phone': contact.phone if contact else None,
+                    'exercises': exercise_list
+                }
+                trainees_list.append(trainee_details)
+
+        # Return the list in JSON format
+        return Response(json.dumps(trainees_list), mimetype='application/json', status=200)

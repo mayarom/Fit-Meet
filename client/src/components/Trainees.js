@@ -39,7 +39,7 @@ const TraineesPage = () => {
                 }
 
                 // Now fetch the data of the trainees.
-                fetch('/lists/trainees-list', {
+                fetch('/lists/trainees-list/registered', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -100,24 +100,37 @@ const TraineesPage = () => {
                     </tr>
                 </thead>
                 <tbody className="text-center align-middle">
-                    {trainees.map((trainee, index) => {
-                        return (
-                            <tr key={index}>
-                                <td>{trainee.id}</td>
-                                <td>{trainee.name}</td>
-                                <td>{trainee.city}</td>
-                                <td>{trainee.email}</td>
-                                <td>{trainee.phone}</td>
-                                <td>Test</td>
-                                <td>
-                                    <Button variant="primary" size="sm" as={Link} to={`/profile/${trainee.id}`}>
-                                        View Profile
-                                    </Button>
-                                </td>
-                            </tr>
-                        );
-                    })
-                };
+                    {trainees.length === 0 ? (
+                        <tr>
+                            <td colSpan="7">No trainees are registered to your exercises yet.</td>
+                        </tr>
+                    ) : (
+                        trainees.map((trainee, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{trainee.id}</td>
+                                    <td>{trainee.name}</td>
+                                    <td>{trainee.city}</td>
+                                    <td>{trainee.email}</td>
+                                    <td>{trainee.phone}</td>
+                                    <td> {trainee.exercises.map((exercise, index) => {
+                                        return (
+                                            <p key={index}>Name: {exercise.name} <br />
+                                                Date: {exercise.date} <br />
+                                                Description: {exercise.description}</p>
+                                        );
+                                    }
+                                    )}
+                                    </td>
+                                    <td>
+                                        <Button variant="primary" size="sm" as={Link} to={`/profile/${trainee.id}`}>
+                                            View Profile
+                                        </Button>
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    )};
                 </tbody>
             </Table>
         </Container>
