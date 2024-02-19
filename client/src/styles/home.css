@@ -23,7 +23,35 @@
     --light-color: #E2E6EA;
     --dark-color: #343A40;
 }
-
+.profile-title {
+    text-align: center;
+    color: var(--blue);
+    /* A color defined in your CSS root */
+    font-family: 'Poppins', sans-serif;
+    /* Assuming you want to use Poppins as per your imports */
+    font-weight: var(--font-bold);
+    /* Bold weight for more impact */
+    font-size: 3rem;
+    /* Larger size for prominence */
+    margin-top: 2rem;
+    /* Spacing from the top */
+    margin-bottom: 2rem;
+    /* Spacing from the bottom */
+    padding: 0.5rem 1rem;
+    /* Padding for aesthetic spacing */
+    background-color: var(--off-white);
+    /* A subtle background color if desired */
+    border-radius: 0.5rem;
+    /* Rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Soft shadow for depth */
+    display: inline-block;
+    /* Makes the background only as wide as necessary */
+    max-width: 100%;
+    /* Ensure it doesn't overflow */
+    word-wrap: break-word;
+    /* If the title is long, it should wrap */
+}
 .home-container {
     display: flex;
     flex-direction: column;

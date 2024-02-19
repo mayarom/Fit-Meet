@@ -44,42 +44,40 @@ const TrainersPage = () => {
         return <Container fluid="md"><Alert variant="danger">{error}</Alert></Container>;
     }
 
-   return (
-    <div className="auth-form-container mt-5">
+return (
+    <div className="auth-form-container">
         <Row>
-            <Col>
-                <h2 className="page-title">Meet Our Trainers</h2>
-                <div className="grid-container">
-                    {trainers.length > 0 ? (
-                        trainers.map((trainer, index) => (
-                            <Card key={index} className="card custom-card">
-                               
-                                <Card.Body className="trainer-card-body">
-                                    <Card.Title>{trainer.name}</Card.Title>
-                                    <Card.Text>
-                                        <p>Experience: {trainer.experience}</p>
-                                        <p>City: {trainer.city}</p>
-                                        <p>Email: {trainer.email}</p>
-                                        <p>Phone: {trainer.phone}</p>
-                                    </Card.Text>
-                                </Card.Body>
-                                <div className="trainer-card-footer">
-                                    <Button variant="primary" as={Link} to={`/profile/${trainer.id}`}>
-                                        View Profile
-                                    </Button>
-                                    <Button variant="primary" href={trainer.paylink} target="_blank">
-                                        Pay Here
-                                    </Button>
-                                </div>
-                            </Card>
-                        ))
-                    ) : (
-                        <p className="text-center">No trainers found.</p>
-                    )}
-                </div>
-            </Col>
+            <h1 className="profile-title text-center">Meet Our Trainers</h1>
+            <div className="grid-container">
+                {trainers.length > 0 ? (
+                    trainers.map((trainer, index) => (
+                        <Card key={index} className="custom-card">
+                            <Card.Body className="trainer-card-body">
+                                <Card.Title>{trainer.name}</Card.Title>
+                                <Card.Text>
+                                    <p>Experience: {trainer.experience}</p>
+                                    <p>City: {trainer.city}</p>
+                                    <p>Email: {trainer.email}</p>
+                                    <p>Phone: {trainer.phone}</p>
+                                </Card.Text>
+                            </Card.Body>
+                            <div className="trainer-card-footer">
+                                <Button variant="primary" as={Link} to={`/profile/${trainer.id}`}>
+                                    View Profile
+                                </Button>
+                                <Button variant="primary" href={trainer.paylink} target="_blank">
+                                    Pay Here
+                                </Button>
+                            </div>
+                        </Card>
+                    ))
+                ) : (
+                    <p className="text-center">No trainers found.</p>
+                )}
+            </div>
         </Row>
     </div>
 );
+
 };
 export default TrainersPage;

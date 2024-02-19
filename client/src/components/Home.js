@@ -17,7 +17,7 @@ const MyButton = ({to, variant, className, children}) => (
 return (
     <div className="home-container">
         <div className="welcome-message">
-            <h1 className="heading">Welcome to Fit & Meet!</h1>
+            <h1 className="profile-title text-center">Welcome to Fit & Meet!</h1>
             <p className="p">Fit & Meet is a social platform for fitness enthusiasts that helps you connect with trainers<br /> 
               in your area and find workout routines that suit your needs.</p>
         </div>

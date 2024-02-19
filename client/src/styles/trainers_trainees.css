@@ -23,7 +23,36 @@
     --light-color: #E2E6EA;
     --dark-color: #343A40;
 }
+.profile-title {
+    text-align: center;
+    color: var(--blue);
+    font-family: 'Poppins', sans-serif;
+    font-weight: var(--font-bold);
+    font-size: 3rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5rem 1rem;
+    background-color: var(--off-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+    max-width: 100%;
+    word-wrap: break-word;
+    width: 100%;
 
+}
+
+.container-fluid {
+    padding-right: var(--bs-gutter-x, .75rem);
+    padding-left: var(--bs-gutter-x, .75rem);
+    margin-right: auto;
+    margin-left: auto;
+    width: 100%;
+    max-width: 100%;
+    /* Remove this line if it exists and is causing an issue */
+}
 .bg-primary {
     background-color: #343a40 !important;
     
@@ -43,7 +72,8 @@ body {
     color: #007bff;
     font-size: 2.4rem;
     font-weight: 600;
-    margin: 2rem 0;
+    margin: 2rem auto;
+    width: fit-content;
 }
 
 .card {
@@ -52,10 +82,18 @@ body {
     margin-bottom: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
-    width: 300%;
-        /* Stretch the width to become 3 times wider than what it currently is */
+    /*width: 300%;*/
     max-width: 80%;
-        /* Limit max-width to 100% to prevent overflow */
+    margin: 70px auto;
+    width: auto;
+    max-width: 100%;
+    /*center the card*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #fff;
 }
 
 .card:hover {
@@ -69,9 +107,15 @@ body {
 }
 
 .custom-card {
-    width: 400% !important;
-    max-width: 100% !important;
-} 
+    margin: auto;
+    /* Center the card within the grid cell */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Distribute space between card body and footer */
+    align-items: center;
+    text-align: center;
+}
 /* Button Styling */
 .card button {
     background-color: #60a5fa;
@@ -89,11 +133,11 @@ body {
     background-color: #007bff;
 }
 
-/* Responsive Grid Styling for Cards */
+/* Grid container to arrange cards in a grid */
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-    /* The min-width of columns holding your cards to 500px */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    /* Adjust the min-width of the cards */
     gap: 20px;
     padding: 20px;
 }
@@ -107,8 +151,10 @@ body {
 
 .auth-form-container {
     width: 90vw;
-    max-width: 90%;
-    margin-bottom: 100px;
+    max-width: 100%;
+    /* Ensure it doesn't exceed the width of the viewport */
+    padding-bottom: 100px;
+    /* Add some space at the bottom */
 }
 
 /* Button Styling */
@@ -142,4 +188,25 @@ body {
 
 .btn-secondary:hover {
     background-color: #ddd;
+}
+
+/* Trainer card body styling */
+.trainer-card-body {
+    padding: 20px;
+}
+
+.trainer-card-footer {
+    display: flex;
+    justify-content: space-around;
+    /* This will space out the buttons evenly */
+    align-items: center;
+    padding: 1rem;
+    /* Adjust padding as necessary */
+    background-color: transparent;
+    /* Ensures the background is transparent */
+}
+
+.card .btn {
+    margin: 5px;
+    /* Smaller margin for buttons */
 }

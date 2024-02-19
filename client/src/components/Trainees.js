@@ -80,7 +80,7 @@ const TraineesPage = () => {
 return (
     <Container className="auth-form-container mt-5">
         <Card>
-            <Card.Header className="text-center page-title">Trainees</Card.Header>
+            <h1 className="profile-title text-center">Trainees</h1>
             <Card.Body>
                 <Card.Text className="text-center">
                     View all trainees that are registered to your exercises.

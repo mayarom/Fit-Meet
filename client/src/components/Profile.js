@@ -88,7 +88,7 @@ const ProfileComponent = () => {
         return (
             <Container>
                 <Row>
-                    <h1 className="text-center">Your Profile</h1>
+                <h1 className="profile-title text-center">Your Profile</h1>
                     <Col>
                         <Card>
                             <Card.Body>
@@ -107,37 +107,46 @@ const ProfileComponent = () => {
     return (
     <Container fluid> {/* Use 'fluid' to make the container span the entire width of the view */}
         <Row className="justify-content-center"> {/* Center align the content */}
-            <h2 className="page-title">Your Profile</h2>
+            <h1 className="profile-title text-center">Your Profile</h1>
                 <Col xs={12} md={8}>
-                    <Card className="w-100">
+                    <Card className="w-100 profile-card">
                         <Card.Body>
                             <Card.Title>Information</Card.Title>
                             <Card.Text>
-                                <p>Username: {user.basic_details.username}</p>
-                                <p>Email: {user.contact_details.email}</p>
-                                <p>Date of Birth: {user.basic_details.dob}</p>
-                                <p>Phone: {user.contact_details.phone}</p>
-                                <p>City: {user.basic_details.city}</p>
-                                <p>You are a {user.basic_details.permissions}!</p>
-                                {user.basic_details.permissions === "trainee" ?
+                                <p>Username: <span className="data-field-bg">{user.basic_details.username}</span></p>
+                                <p>Email: <span className="data-field-bg">{user.contact_details.email}</span></p>
+                                <p>Date of Birth: <span className="data-field-bg">{user.basic_details.dob}</span></p>
+                                <p>Phone: <span className="data-field-bg">{user.contact_details.phone}</span></p>
+                                <p>City: <span className="data-field-bg">{user.basic_details.city}</span></p>
+                                <p>You are a <span className="data-field-bg">{user.basic_details.permissions}</span>!</p>
+
+                                {user.basic_details.permissions === "trainee" && (
                                     <>
-                                        <p>Height: {user.trainee_details.height} meters</p>
-                                        <p>Weight: {user.trainee_details.weight} kg</p>
-                                        <p>Goal: {user.trainee_details.goal}</p>
+                                    <p>Height: <span className="data-field-bg">{user.trainee_details.height} meters</span></p>
+                                    <p>Weight: <span className="data-field-bg">{user.trainee_details.weight} kg</span></p>
+                                    <p>Goal: <span className="data-field-bg">{user.trainee_details.goal}</span></p>
                                     </>
-                                    : user.basic_details.permissions === "trainer" ?
-                                        <>
-                                            <p>Experience: {user.trainer_details.experience}</p>
-                                            <p>Paylink: {user.trainer_details.paylink}</p>
-                                        </>
-                                        : user.basic_details.permissions === "admin" ?
-                                            <>
-                                                <p>Admin Information</p>
-                                                {/* Add admin details here */}
-                                            </>
-                                            : <p>Invalid permissions</p>
-                                }
+                                )}
+                                
+                                {user.basic_details.permissions === "trainer" && (
+                                    <>
+                                    <p>Experience: <span className="data-field-bg">{user.trainer_details.experience}</span></p>
+                                    <p>Paylink: <span className="data-field-bg"><a href={user.trainer_details.paylink} target="_blank" rel="noopener noreferrer">{user.trainer_details.paylink}</a></span></p>
+                                    </>
+                                )}
+                                
+                                {user.basic_details.permissions === "admin" && (
+                                    <>
+                                    {/* Admin details can be added here */}
+                                    <p>Admin Information</p>
+                                    </>
+                                )}
+                                
+                                {user.basic_details.permissions !== "trainee" && user.basic_details.permissions !== "trainer" && user.basic_details.permissions !== "admin" && (
+                                    <p>Invalid permissions</p>
+                                )}
                             </Card.Text>
+
                         </Card.Body>
 
                         {user.basic_details.permissions === "trainer" ?
@@ -165,11 +174,11 @@ const ProfileComponent = () => {
                             : null
                         }
 
-                        <div className="text-center">
-                            <Button href="/edit-profile">Edit Profile</Button>
-                            <Button href="/change-password">Change Password</Button>
-                            <Button href="/delete-account">Delete Account</Button>
-                        </div>
+            <div className="trainer-card-footer">
+                <Button variant="primary" href="/edit-profile">Edit Profile</Button>
+                <Button variant="primary" href="/change-password">Change Password</Button>
+                <Button variant="primary" href="/delete-account">Delete Account</Button>
+            </div>
                     </Card>
                 </Col>
             </Row>
@@ -272,8 +281,9 @@ const EditProfileComponent = () => {
         console.log("user data: ", user);
 
         return (
+            
             <Container>
-                <Row>
+                <Row className="justify-content-center">
                     <h1 className="text-center">Edit Profile</h1>
                     <Col>
                         <Card>
@@ -291,17 +301,17 @@ const EditProfileComponent = () => {
     }
 
     return (
-         <Container fluid>
-            <Row className="justify-content-center">
-                <h1 className="text-center">Edit Profile</h1>
-                <Col>
-                    <Card>
+          <Container fluid className="d-flex justify-content-center align-items-center vh-100">
+             <Row className="w-100 justify-content-center">
+                 <h2 className="page-title">Edit Profile</h2>
+                <Col xs={12} md={8} lg={6}>
+                    <Card className="mx-auto" style={{ maxWidth: '500px' }}>
                         <Card.Body>
                             <Card.Title>Edit Profile</Card.Title>
                             {error && <Alert variant="danger">{error}</Alert>}
                             {success && <Alert variant="success">Profile updated successfully</Alert>}
                             <Form onSubmit={handleSubmit(editProfile)}>
-                                <Form.Group controlId="formEmail">
+                                <Form.Group controlId="formEmail" >
                                     <Form.Label>Email</Form.Label>
                                     <Form.Control
                                         type="email"
@@ -315,7 +325,7 @@ const EditProfileComponent = () => {
                                         {errors.email && errors.email.type === "maxLength" && <p>Email cannot exceed 255 characters</p>}
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                                <Form.Group controlId="formDob">
+                                <Form.Group controlId="formDob" >
                                     <Form.Label>Date of Birth</Form.Label>
                                     <Form.Control
                                         type="date"
@@ -408,7 +418,7 @@ const EditProfileComponent = () => {
                                             {errors.goal && errors.goal.type === "required" && <p>This field is required</p>}
                                             {errors.goal && errors.goal.type === "maxLength" && <p>Goal cannot exceed 50 characters</p>}
                                         </Form.Control.Feedback>
-                                    </Form.Group><Form.Group controlId="formTraineeHeight">                                        
+                                    </Form.Group><Form.Group controlId="formTraineeHeight" >                                        
                                             <Form.Label>Height</Form.Label>
                                             <Form.Control
                                                 type="number"
@@ -436,7 +446,7 @@ const EditProfileComponent = () => {
                                                 {errors.height && errors.height.type === "max" && <p>Height cannot exceed 3 meters</p>}
                                             </Form.Control.Feedback>
                                         </Form.Group>
-                                        <Form.Group controlId="formTraineeWeight">
+                                        <Form.Group controlId="formTraineeWeight" >
                                             <Form.Label>Weight</Form.Label>
                                             <Form.Control
                                                 type="number"
@@ -467,7 +477,7 @@ const EditProfileComponent = () => {
                                     </>
                                     : user.basic_details.permissions === "trainer" ?
                                         <>
-                                        <Form.Group controlId="formTrainerExperience">
+                                        <Form.Group controlId="formTrainerExperience" >
                                             <Form.Label>Trainer Details</Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -481,7 +491,7 @@ const EditProfileComponent = () => {
                                                 {errors.experience && errors.experience.type === "maxLength" && <p>Experience cannot exceed 50 characters</p>}
                                             </Form.Control.Feedback>
                                         </Form.Group>
-                                        <Form.Group controlId="formTrainerPaylink">
+                                        <Form.Group controlId="formTrainerPaylink" >
                                             <Form.Label>Paylink</Form.Label>
                                             <Form.Control
                                                 type="text"
@@ -498,16 +508,16 @@ const EditProfileComponent = () => {
                                         </>: null
                                 }
                                 <div className="text-center">
-                                    <div style={{ display: "flex", flexDirection: "column" }}>
+                                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}> {/* Added alignment for buttons */}
                                         <Button variant="primary" type="submit">
                                             Update Profile
                                         </Button>
 
-                                        <Button variant="secondary" onClick={() => reset()}>
+                                        <Button variant="primary" onClick={() => reset()}>
                                             Reset
                                         </Button>
 
-                                        <Button variant="danger" onClick={() => history.push('/profile')}>
+                                        <Button variant="primary" onClick={() => history.push('/profile')}>
                                             Cancel
                                         </Button>
                                     </div>
@@ -598,7 +608,7 @@ const ChangePasswordComponent = () => {
             {passwordSuccess && <Alert variant="success">Password changed successfully</Alert>}
             {error && <Alert variant="danger">{error}</Alert>}
             <form onSubmit={handleSubmit(changePassword)}>
-                <Form.Group controlId="formOldPassword">
+                <Form.Group controlId="formOldPassword" >
                     <Form.Label>Old Password</Form.Label>
                     <Form.Control
                         type="password"
@@ -611,7 +621,7 @@ const ChangePasswordComponent = () => {
                         {errors.old_password && errors.old_password.type === "maxLength" && <p>Password cannot exceed 25 characters</p>}
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group controlId="formNewPassword">
+                <Form.Group controlId="formNewPassword" >
                     <Form.Label>New Password</Form.Label>
                     <Form.Control
                         type="password"
@@ -624,7 +634,7 @@ const ChangePasswordComponent = () => {
                         {errors.new_password && errors.new_password.type === "maxLength" && <p>Password cannot exceed 25 characters</p>}
                     </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group controlId="formConfirmPassword">
+                <Form.Group controlId="formConfirmPassword" >
                     <Form.Label>Confirm New Password</Form.Label>
                     <Form.Control
 
@@ -644,11 +654,11 @@ const ChangePasswordComponent = () => {
                         Change Password
                     </Button>
 
-                    <Button variant="secondary" onClick={() => reset()}>
+                    <Button variant="primary" onClick={() => reset()}>
                         Reset
                     </Button>
 
-                    <Button variant="danger" onClick={() => history.push('/profile')}>
+                    <Button variant="primary" onClick={() => history.push('/profile')}>
                         Cancel
                     </Button>
                 </div>
@@ -698,24 +708,24 @@ const DeleteAccountComponent = () => {
     }
 
     return (
-        <Container>
-            <Row>
-                <h1 className="text-center">Delete Account</h1>
+        <Container fluid className="d-flex justify-content-center align-items-center vh-100 profile-container">
+             <Row className="w-100 justify-content-center">
+                <h2 className="page-title">Delete Account</h2>
                 {error && <Alert variant="danger">Account deletion failed. Please try again later.</Alert>}
                 {success && <Alert variant="success">Account deleted successfully</Alert>}
-                <Col>
-                    <Card>
+                <Col xs={12} md={8} lg={6}>
+                     <Card className="mx-auto" style={{ maxWidth: '500px' }}>
                         <Card.Body>
                             <Card.Title>Careful!</Card.Title>
                             <Card.Text>
                                 <p>Are you sure you want to delete your account?</p>
                                 <p>This action cannot be undone.</p>
                                 <div className="d-flex">
-                                    <Button variant="danger" type="submit" onClick={deleteAccount}>
+                                    <Button variant="primary" type="submit" onClick={deleteAccount}>
                                         Delete Account
                                     </Button>
 
-                                    <Button variant="secondary" href="/profile">
+                                    <Button variant="primary" href="/profile">
                                         Cancel
                                     </Button>
                                 </div>
@@ -822,75 +832,77 @@ const UserProfileComponent = () => {
             </Container>
         );
     }
+return (
+    <Container fluid className="d-flex justify-content-center align-items-center min-vh-100">
+        <Row className="justify-content-center w-100">
+            <Col xs={12} md={8} lg={6}>
+                <Card className="w-100 profile-card">
+                    <Card.Body>
+                        <Card.Title>Information</Card.Title>
+                        <Card.Text>
+                            <p><strong>Email:</strong><span className="data-field-bg"> {user.contact_details.email}</span></p>
+                            <p><strong>Date of Birth:</strong><span className="data-field-bg"> {user.basic_details.dob}</span></p>
+                            <p><strong>Phone:</strong><span className="data-field-bg"> {user.contact_details.phone}</span></p>
+                            <p><strong>City:</strong> <span className="data-field-bg">{user.basic_details.city}</span></p>
+                            <p><strong>Status:</strong> <span className="data-field-bg">{user.basic_details.username} is a {user.basic_details.permissions}.</span></p>
+                            {user.basic_details.permissions === "trainee" &&
+                                <>
+                                    <p><strong>Height:</strong> <span className="data-field-bg">{user.trainee_details.height} meters</span></p>
 
-    return (
-        <Container>
-            <Row>
-                <h1 className="text-center">{user.basic_details.username}'s Profile</h1>
-                <Col>
-                    <Card>
+                                    <p><strong>Weight:</strong> <span className="data-field-bg"> {user.trainee_details.weight} kg</span></p>
+                                    <p><strong>Goal:</strong> <span className="data-field-bg"> {user.trainee_details.goal}</span></p>
+                                </>
+                            }
+                            {user.basic_details.permissions === "trainer" &&
+                                <>
+                                    <p><strong>Experience:</strong><span className="data-field-bg"> {user.trainer_details.experience}</span></p>
+                                    <p>Paylink: <span className="data-field-bg"> <a href={user.trainer_details.paylink} target="_blank" rel="noopener noreferrer" className="paylink-text">{user.trainer_details.paylink}</a></span></p>
+                                </>
+                            }
+                            {user.basic_details.permissions === "admin" &&
+                                <>
+                                    {/* Admin details can be added here */}
+                                    <p>Admin Information</p>
+                                </>
+                            }
+                            {user.basic_details.permissions !== "trainee" && user.basic_details.permissions !== "trainer" && user.basic_details.permissions !== "admin" &&
+                                <p>Invalid permissions</p>
+                            }
+                        </Card.Text>
+                    </Card.Body>
+
+                    {user.basic_details.permissions === "trainer" &&
                         <Card.Body>
-                            <Card.Title>Information</Card.Title>
-                            <Card.Text>
-                                <p>Email: {user.contact_details.email}</p>
-                                <p>Date of Birth: {user.basic_details.dob}</p>
-                                <p>Phone: {user.contact_details.phone}</p>
-                                <p>City: {user.basic_details.city}</p>
-                                <p>{user.basic_details.username} is a {user.basic_details.permissions}!</p>
-                                {user.basic_details.permissions === "trainee" ?
-                                    <>
-                                        <p>Height: {user.trainee_details.height} meters</p>
-                                        <p>Weight: {user.trainee_details.weight} kg</p>
-                                        <p>Goal: {user.trainee_details.goal}</p>
-                                    </>
-                                    : user.basic_details.permissions === "trainer" ?
-                                        <>
-                                            <p>Experience: {user.trainer_details.experience}</p>
-                                            <p>Paylink: {user.trainer_details.paylink}</p>
-                                        </>
-                                        : user.basic_details.permissions === "admin" ?
-                                            <>
-                                                <p>Admin Information</p>
-                                                {/* Add admin details here */}
-                                            </>
-                                            : <p>Invalid permissions</p>
-                                }
-                            </Card.Text>
+                            <Card.Title className="card-title text-center">Reviews</Card.Title>
+                            {user.trainer_reviews && user.trainer_reviews.length > 0 ? (
+                                user.trainer_reviews.map(review => (
+                                    <Card key={review._id} className="mb-2">
+                                        <Card.Body>
+                                             <Card.Title className="card-title">{review.title}</Card.Title>
+                                             <Card.Text className="card-text">
+                                                <p>{review.body}</p>
+                                                <p>Rating: {review.rating}</p>
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                ))
+                            ) : (
+                                <p>No reviews yet!</p>
+                            )}
                         </Card.Body>
+                    }
 
-                        {user.basic_details.permissions === "trainer" ?
-                            <Card.Body>
-                                <Card.Title>Reviews</Card.Title>
-                                <Card.Text>
-                                    {user.trainer_reviews != null ?
-                                        user.trainer_reviews.map(review => {
-                                            return (
-                                                <Card key={review._id}>
-                                                    <Card.Body>
-                                                        <Card.Title>{review.title}</Card.Title>
-                                                        <Card.Text>
-                                                            <p>{review.body}</p>
-                                                            <p>Rating: {review.rating}</p>
-                                                        </Card.Text>
-                                                    </Card.Body>
-                                                </Card>
-                                            );
-                                        })
-                                        : <p>No reviews yet!</p>
-                                    }
-                                </Card.Text>
-                            </Card.Body>
-                            : null
-                        }
+                    <div className="text-center mb-3">
+                        <Button variant="outline-primary" className="btn-outline-primary" onClick={() => window.history.back()}>
+                            Back
+                        </Button>
+                    </div>
+                </Card>
+            </Col>
+        </Row>
+    </Container>
+);
 
-                        <div className="text-center">
-                            <Button onClick={() => window.history.back()}>Back</Button>
-                        </div>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
-    );
 };
 
 export default ProfilePage;
