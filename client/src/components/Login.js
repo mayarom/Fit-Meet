@@ -3,7 +3,7 @@ import { Form, Button, Alert, Col } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { login } from '../auth';
-import '../styles/main.css';
+import '../styles/signup_login.css';
 
 // Description: This component provides a login form for users to log in to the Fit & Meet application.
 const LoginPage = () => {
@@ -48,7 +48,7 @@ const LoginPage = () => {
 
     return (
         <div className="container mt-5">
-            <h2 as={Col} md="6" className="mb-3 text-center">Login to Fit & Meet</h2>
+            <h2 className="page-title">Login to Fit & Meet</h2>
             {loginError && <Alert variant="danger">Invalid username or password</Alert>}
             <form onSubmit={handleSubmit(loginUser)}>
                 <Form.Group controlId="formUsername">

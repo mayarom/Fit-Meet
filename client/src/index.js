@@ -1,6 +1,10 @@
 // Import necessary CSS and libraries
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/main.css';
+import './styles/navbar_footer.css';
+import './styles/home.css';
+import './styles/signup_login.css';
+import './styles/home.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import NavBar from './components/Navbar';
@@ -13,13 +17,17 @@ import Profile from './components/Profile'; // Import the Profile component
 import ExercisePage from './components/Exercise'; // Import the ExercisePage component
 import TraineesPage from './components/Trainees'; // Import the TraineesPage component
 import AdminPage from './components/Admin'; // Import the AdminPage component
+import TrainersPage from './components/Trainers';
+//footer
+import Footer from './components/Footer';
 
 // App component that defines the structure of the application
 const App = () => {
     return (
         <Router>
-            <div className="">
+            <div className="min-vh-100 d-flex flex-column">
                 <NavBar/> {/* Render the Navbar component */}
+               
                 <Switch>
                     <Route path="/profile">
                         <Profile/> {/* Render the Profile component when URL matches '/profile' */}
@@ -51,6 +59,9 @@ const App = () => {
                     <Route path="/trainees">
                         <TraineesPage/> {/* Render the traineesPage component when URL matches '/trainees' */}
                     </Route>
+                    <Route path="/trainers">
+                        <TrainersPage/> {/* Render the trainersPage component when URL matches '/trainers' */}
+                    </Route>
                     <Route path="/admin">
                         <AdminPage/> {/* Render the AdminPage component when URL matches '/admin' */}
                     </Route>
@@ -61,6 +72,7 @@ const App = () => {
                         <HomePage/> {/* Render the HomePage component for the default route '/' */}
                     </Route>
                 </Switch>
+                 <Footer/>
             </div>
         </Router>
     );

@@ -1,4 +1,5 @@
 from calendar import c
+import logging
 import stat
 from tkinter import N
 from flask import Flask, Response, jsonify, request, json
@@ -7,6 +8,9 @@ from flask_jwt_extended import create_access_token, create_refresh_token, get_jw
 from flask_restx import Namespace, Resource, fields
 from exts import db
 from models import TrainersReviews, Users, UsersDetails, TraineesDetails, TrainersDetails, UsersContact, UsersPermission, UsersExercises, TrainersExercises
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 lists_ns = Namespace('lists', description='Lists of users and trainees')
 
@@ -44,31 +48,34 @@ class TraineesList(Resource):
     
 @lists_ns.route('/trainers-list')
 class TrainersList(Resource):
-    @jwt_required()
     def get(self):
-        # Query the database to fetch all users with permissions of 'trainer'
-        trainers = Users.query.join(Users.permissions).filter_by(permissions='trainer').all()
+        # Query the database to fetch all users with the 'trainer' permission
+        trainers = Users.query.join(UsersPermission).filter(UsersPermission.permissions == 'trainer').all()
 
         # Assemble the fetched data into a list of dictionaries
         trainers_list = []
-        
+
         for trainer in trainers:
-            # Retrieve details from UsersDetails and UsersContact models
+            # Retrieve details from UsersDetails, UsersContact, and TrainersDetails models
             details = UsersDetails.query.filter_by(userID=trainer.userID).first()
             contact = UsersContact.query.filter_by(userID=trainer.userID).first()
-            
-            # Assemble user details into a dictionary
-            trainer_details = {
+            trainer_details = TrainersDetails.query.filter_by(userID=trainer.userID).first()
+
+            # Assemble trainer details into a dictionary
+            trainer_dict = {
                 'id': trainer.userID,
                 'name': trainer.username,
                 'city': details.city if details else None,
                 'email': contact.email if contact else None,
-                'phone': contact.phone if contact else None
+                'phone': contact.phone if contact else None,
+                'experience': trainer_details.experience if trainer_details else None,
+                'paylink': trainer_details.paylink if trainer_details else None
             }
-            trainers_list.append(trainer_details)
+            trainers_list.append(trainer_dict)
 
         # Return the list in JSON format
         return Response(json.dumps(trainers_list), mimetype='application/json', status=200)
+
     
 @lists_ns.route('/users-list')
 class UsersList(Resource):

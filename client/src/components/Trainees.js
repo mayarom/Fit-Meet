@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch, useParams, Link, useHistory } f
 import { Form, Button, Alert, Container, Row, Col, Card, Table } from 'react-bootstrap';
 import { get, useForm } from 'react-hook-form';
 import { login, logoutUser } from '../auth';
-import '../styles/main.css';
+import '../styles/trainers_trainees.css';
 
 const TraineesPage = () => {
     const [permissions, setPermissions] = useState([]);
@@ -77,64 +77,51 @@ const TraineesPage = () => {
         return (<Container fluid="md"><Alert variant="danger">{error}</Alert></Container>);
     }
 
-    return (
-        <Container fluid="md">
-            <Card>
-                <Card.Title className="text-center">Trainees</Card.Title>
-                <Card.Body>
-                    <Card.Text className="text-center">
-                        View all trainees that are registered to your exercises.
-                    </Card.Text>
-                </Card.Body>
-            </Card>
-            <Table responsive="sm" striped bordered hover variant>
-                <thead>
-                    <tr className="text-center align-middle">
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>City</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Registered exercises</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody className="text-center align-middle">
-                    {trainees.length === 0 ? (
-                        <tr>
-                            <td colSpan="7">No trainees are registered to your exercises yet.</td>
-                        </tr>
-                    ) : (
-                        trainees.map((trainee, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{trainee.id}</td>
-                                    <td>{trainee.name}</td>
-                                    <td>{trainee.city}</td>
-                                    <td>{trainee.email}</td>
-                                    <td>{trainee.phone}</td>
-                                    <td> {trainee.exercises.map((exercise, index) => {
+return (
+    <Container className="auth-form-container mt-5">
+        <Card>
+            <Card.Header className="text-center page-title">Trainees</Card.Header>
+            <Card.Body>
+                <Card.Text className="text-center">
+                    View all trainees that are registered to your exercises.
+                </Card.Text>
+
+                {trainees.length === 0 ? (
+                    <div>No trainees are registered to your exercises yet.</div>
+                ) : (
+                    trainees.map((trainee, index) => {
+                        return (
+                            <Card key={index} style={{marginBottom: '10px'}}>
+                                <Card.Body>
+                                    <Card.Title>Name: {trainee.name}</Card.Title>
+                                    <Card.Text>
+                                        <strong>ID:</strong> {trainee.id}<br />
+                                        <strong>City:</strong> {trainee.city} <br />
+                                        <strong>Email:</strong> {trainee.email} <br />
+                                        <strong>Phone:</strong> {trainee.phone}
+                                    </Card.Text>
+                                    
+                                    <Card.Title>Registered exercises:</Card.Title>
+                                    {trainee.exercises.map((exercise, index) => {
                                         return (
-                                            <p key={index}>Name: {exercise.name} <br />
-                                                Date: {exercise.date} <br />
-                                                Description: {exercise.description}</p>
-                                        );
-                                    }
-                                    )}
-                                    </td>
-                                    <td>
-                                        <Button variant="primary" size="sm" as={Link} to={`/profile/${trainee.id}`}>
-                                            View Profile
-                                        </Button>
-                                    </td>
-                                </tr>
-                            );
-                        })
-                    )};
-                </tbody>
-            </Table>
-        </Container>
-    );
+                                            <Card.Text key={index}>
+                                                <strong>Name:</strong> {exercise.name} <br />
+                                                <strong>Date:</strong> {exercise.date} <br />
+                                                <strong>Description:</strong> {exercise.description}
+                                            </Card.Text>);
+                                    })}
+                                    <Button variant="primary" size="sm" as={Link} to={`/profile/${trainee.id}`}>
+                                        View Profile
+                                    </Button>
+                                </Card.Body>
+                            </Card>
+                        );
+                    })
+                )}
+            </Card.Body>
+        </Card>
+    </Container>
+);
 };
 
 export default TraineesPage;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import '../styles/signup.css';
+import '../styles/signup_login.css';
 
 const SignUpPage = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -109,7 +109,7 @@ const SignUpPage = () => {
                         <p>{serverResponse}</p>
                     </Alert>
                 )}
-                <h2 className="signup-title mb-3 text-center">Sign Up for Fit & Meet</h2>
+                <h2 className="page-title">Sign Up for Fit & Meet</h2>
                 <Form onSubmit={handleSubmit(submitForm)}>
                     {/* Form fields and controls */}
                     {/* Username */}

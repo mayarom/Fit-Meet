@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/navbar_footer.css';
 
 const NavItem = ({ to, onClick, children }) => {
     const linkProps = to
