@@ -133,7 +133,7 @@ class TraineesListRegistered(Resource):
         if not curr_user_permissions:
             return Response(json.dumps({"message": "User permissions not found", "success": False}), mimetype='application/json', status=404)
         
-        elif curr_user_permissions.permissions != "trainer":
+        elif curr_user_permissions.permissions != "trainer" and curr_user_permissions.permissions != "admin":
             return Response(json.dumps({"message": "You do not have permission to access this resource", "success": False}), mimetype='application/json', status=403)
         
         # Query the database to fetch all users with permissions of 'trainee'

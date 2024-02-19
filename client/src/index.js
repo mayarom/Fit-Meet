@@ -2,13 +2,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/main.css';
 import './styles/navbar_footer.css';
-import './styles/home.css';
 import './styles/signup_login.css';
-import './styles/home.css';
+
+// Import necessary React libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NavBar from './components/Navbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+// Import necessary components
+import NavBar from './components/Navbar';
+import Footer from './components/Footer';
+
+// Import necessary pages
 import HomePage from './components/Home'; // Import the HomePage component
 import SignUpPage from './components/SignUp'; // Import the SignUpPage component
 import LoginPage from './components/Login'; // Import the LoginPage component
@@ -18,8 +23,6 @@ import ExercisePage from './components/Exercise'; // Import the ExercisePage com
 import TraineesPage from './components/Trainees'; // Import the TraineesPage component
 import AdminPage from './components/Admin'; // Import the AdminPage component
 import TrainersPage from './components/Trainers';
-//footer
-import Footer from './components/Footer';
 
 // App component that defines the structure of the application
 const App = () => {

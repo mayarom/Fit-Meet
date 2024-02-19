@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Route, Switch, useParams, Link, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useParams, useHistory } from 'react-router-dom';
 import { Form, Button, Alert, Container, Row, Col, Card } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { login, logoutUser } from '../auth';
 import '../styles/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -338,7 +337,7 @@ const EditProfileComponent = () => {
                                                 const minDate = new Date(currentDate.getFullYear() - 100, 0, 1);
                                                 const maxDate = new Date(currentDate.getFullYear() - 18, 0, 1);
             
-                                                return dob >= minDate && dob <= maxDate || "You must be between 18 and 100 years old.";
+                                                return ((dob >= minDate && dob <= maxDate) || "You must be between 18 and 100 years old.");
                                             }
                                         })}
                                         min={(new Date()).getFullYear() - 100 + "-01-01"} // Calculate the minimum allowed date dynamically

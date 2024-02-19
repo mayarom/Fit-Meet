@@ -64,14 +64,14 @@ const NavBar = () => {
                         <>
                             <NavItem className="nav-item" to="/profile">Profile</NavItem>
 
-                            {permissions && permissions === 'trainee' &&
+                            {permissions && (permissions === 'trainee' || permissions === 'admin') &&
                                 <>
                                 <NavItem className="nav-item" to="/exercises">Exercises History</NavItem>
                                 <NavItem className="nav-item" to="/trainers">Trainers</NavItem>
                                 </>
                             }
 
-                            {permissions && permissions === 'trainer' &&
+                            {permissions && (permissions === 'trainer' || permissions === 'admin') &&
                                 <>
                                 <NavItem className="nav-item" to="/create_exercise">Add Exercise</NavItem>
                                 <NavItem className="nav-item" to="/trainees">Trainees</NavItem>

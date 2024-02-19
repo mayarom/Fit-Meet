@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Alert, Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Alert, Container, Row, Card, Button } from 'react-bootstrap';
 import '../styles/trainers_trainees.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Route, Switch, useParams, Link, useHistory } from 'react-router-dom';
-import { Form, Button, Alert, Container, Row, Col, Card, Table } from 'react-bootstrap';
-import { get, useForm } from 'react-hook-form';
-import { login, logoutUser } from '../auth';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Button, Alert, Container, Row, Col, Card, Table } from 'react-bootstrap';
 import '../styles/main.css';
 
 const AdminPage = () => {
@@ -75,7 +73,7 @@ const AdminPage = () => {
 
 const AdminComponent = () => {
     return (
-        <Container>
+        <Container fluid="md">
             <Row>
                 <Col>
                     <Card>
@@ -158,10 +156,10 @@ const AdminListComponent = () => {
             <Card>
                 <Card.Title className="text-center">Users List (Admin Control Panel)</Card.Title>
                 <Card.Body>
+                    <Alert variant="info">Click on a username to view the details of that user.</Alert>
+                    <Alert variant="danger">This control panel is only for debugging purposes.</Alert>
                     <Card.Text className="text-center">
-                        View the list of users in the system. <br />
-                        <Alert variant="info">Click on a username to view the details of that user.</Alert>
-                        <Alert variant="danger">This control panel is only for debugging purposes.</Alert>
+                        View the list of users in the system.
                     </Card.Text>
                     <Table striped bordered hover>
                         <thead>
@@ -197,6 +195,10 @@ const AdminListComponent = () => {
                             })}
                         </tbody>
                     </Table>
+                    
+                    <div className="text-center">
+                        <Button variant="primary" href="/admin">Back to Admin Panel</Button>
+                    </div>
                 </Card.Body>
             </Card>
         </Container>

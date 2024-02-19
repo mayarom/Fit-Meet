@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Route, Switch, useParams, Link, useHistory } from 'react-router-dom';
-import { Form, Button, Alert, Container, Row, Col, Card, Table } from 'react-bootstrap';
-import { get, useForm } from 'react-hook-form';
-import { login, logoutUser } from '../auth';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Alert, Container, Card } from 'react-bootstrap';
 import '../styles/trainers_trainees.css';
 
 const TraineesPage = () => {

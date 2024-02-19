@@ -209,7 +209,7 @@ const SignUpPage = () => {
                                     const minDate = new Date(currentDate.getFullYear() - 100, 0, 1);
                                     const maxDate = new Date(currentDate.getFullYear() - 18, 0, 1);
 
-                                    return dob >= minDate && dob <= maxDate || "You must be between 18 and 100 years old.";
+                                    return ((dob >= minDate && dob <= maxDate) || "You must be between 18 and 100 years old.");
                                 }
                             })}
                             min={(new Date()).getFullYear() - 100 + "-01-01"} // Calculate the minimum allowed date dynamically
