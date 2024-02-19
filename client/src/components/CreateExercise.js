@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import '../styles/signup_login.css';
 
 const CreateExercisePage = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -41,16 +42,17 @@ const CreateExercisePage = () => {
         console.log("finished exercise/exercises"); // Corrected print statement
     };
 
-    return (
-        <div className="container mt-5">
-            <h1>Create An Exercise</h1>
+       return (
+        <div className="auth-form-container mt-5">
+            <h1 className="page-title">Create An Exercise</h1>
             {message.text && <Alert variant={message.type}>{message.text}</Alert>}
             <Form onSubmit={handleSubmit(createExercise)} noValidate>
-                <Form.Group as={Col} md="6" className="mb-3">
-                    <Form.Label htmlFor="title">Title</Form.Label>
+                <Form.Group as={Col} md="6" className="form-group">
+                    <Form.Label htmlFor="title" className="form-label">Title</Form.Label>
                     <Form.Control
                         type="text"
                         id="title"
+                        className="form-control"
                         {...register('title', { required: 'Title is required', maxLength: 25 })}
                         isInvalid={!!errors.title}
                     />
@@ -59,11 +61,12 @@ const CreateExercisePage = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group as={Col} md="6" className="mb-3">
-                    <Form.Label htmlFor="date">Date</Form.Label>
+                <Form.Group as={Col} md="6" className="form-group">
+                    <Form.Label htmlFor="date" className="form-label">Date</Form.Label>
                     <Form.Control
                         type="date"
                         id="date"
+                        className="form-control"
                         {...register('date', { required: 'Date is required' })}
                         isInvalid={!!errors.date}
                     />
@@ -72,12 +75,13 @@ const CreateExercisePage = () => {
                     </Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group as={Col} md="12" className="mb-3">
-                    <Form.Label htmlFor="description">Description</Form.Label>
+                <Form.Group as={Col} md="12" className="form-group">
+                    <Form.Label htmlFor="description" className="form-label">Description</Form.Label>
                     <Form.Control
                         as="textarea"
                         rows={5}
                         id="description"
+                        className="form-control"
                         {...register('description', { required: 'Description is required', maxLength: 255 })}
                         isInvalid={!!errors.description}
                     />

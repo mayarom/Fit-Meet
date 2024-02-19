@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Set CSS Variables for colors and fonts */
+:root {
+    --off-white: #f9f9f9;
+    --light-blue: #add8e6;
+    --blue: #007bff;
+    --dark-blue: #0056b3;
+    --text-color: #333;
+    --font-light: 300;
+    --font-regular: 400;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --cream: #f5f5f5;
+    --white: #ffffff;
+    --light-sporty-blue: #60a5fa;
+    --pro-orange: #f97316;
+    --background-color: #F0F4F8;
+    --secondary-color: #6C757D;
+    --accent-color: #28A745;
+    --light-color: #E2E6EA;
+    --dark-color: #343A40;
+}
+
+/* Set your Page Title */
+.page-title {
+    text-align: center;
+    color: var(--blue);
+    font-size: 2.4rem;
+    font-weight: 600;
+    margin: 1rem 1rem;
+    padding: 1rem;
+}
+/* Style the Cards that you are using */
+.card {
+    border-radius: 10px;
+    padding: 2rem;
+    /* Reduced padding */
+    margin: 1rem 0;
+    /* Remove horizontal margin */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    word-wrap: break-word;
+    /* Wrap text within Card */
+    width: 300%;
+    /* Increase width to three times */
+    max-width: 100%;
+    /* Ensure it doesn't go beyond its parent's width */
+}
+
+/* Style the Card Titles */
+.card .card-title {
+    font-size: 1.6rem;
+    font-weight: var(--font-bold);
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+/* Style the Card Text */
+.card .card-text p {
+    font-size: 1.4rem;
+    font-weight: var(--font-regular);
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+/* Style the Buttons */
+.text-center button {
+    background-color: var(--light-sporty-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-weight: 500;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 50%;
+}
+
+/* Handle Button Hover State */
+.text-center button:hover {
+    background-color: var(--dark-blue);
+}
+
+/* Style Bootstrap Row and Col Classes */
+
+.row {
+    margin: 0;
+    /* No margins */
+}
+
+.container-fluid>.row>.col {
+    padding: 0;
+    /* No padding on either side */
+}

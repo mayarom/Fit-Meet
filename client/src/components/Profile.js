@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Route, Switch, useParams, Link, useHistory } f
 import { Form, Button, Alert, Container, Row, Col, Card } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { login, logoutUser } from '../auth';
-import '../styles/main.css';
+import '../styles/profile.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProfilePage = () => {
     const [error, setError] = useState(null);
@@ -104,11 +105,11 @@ const ProfileComponent = () => {
     };
 
     return (
-        <Container>
-            <Row>
-                <h1 className="text-center">Your Profile</h1>
-                <Col>
-                    <Card>
+    <Container fluid> {/* Use 'fluid' to make the container span the entire width of the view */}
+        <Row className="justify-content-center"> {/* Center align the content */}
+            <h2 className="page-title">Your Profile</h2>
+                <Col xs={12} md={8}>
+                    <Card className="w-100">
                         <Card.Body>
                             <Card.Title>Information</Card.Title>
                             <Card.Text>
@@ -290,8 +291,8 @@ const EditProfileComponent = () => {
     }
 
     return (
-        <Container>
-            <Row>
+         <Container fluid>
+            <Row className="justify-content-center">
                 <h1 className="text-center">Edit Profile</h1>
                 <Col>
                     <Card>

@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Set CSS Variables for colors and fonts */
+:root {
+    --off-white: #f9f9f9;
+    --light-blue: #add8e6;
+    --blue: #007bff;
+    --dark-blue: #0056b3;
+    --text-color: #333;
+    --font-light: 300;
+    --font-regular: 400;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --cream: #f5f5f5;
+    --white: #ffffff;
+    --light-sporty-blue: #60a5fa;
+    --pro-orange: #f97316;
+    --background-color: #F0F4F8;
+    --primary-color: #007BFF;
+    --secondary-color: #6C757D;
+    --accent-color: #28A745;
+    --light-color: #E2E6EA;
+    --dark-color: #343A40;
+}
+
+.bg-primary {
+    background-color: #343a40 !important;
+    
+}
+
+/* Base Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+}
+
+.page-title {
+    text-align: center;
+    color: #007bff;
+    font-size: 2.4rem;
+    font-weight: 600;
+    margin: 2rem 0;
+}
+
+.card {
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    width: 300%;
+        /* Stretch the width to become 3 times wider than what it currently is */
+    max-width: 80%;
+        /* Limit max-width to 100% to prevent overflow */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 1, 0, 0.2);
+}
+
+/* Card body styling */
+.card-body {
+    text-align: center;
+}
+
+.custom-card {
+    width: 400% !important;
+    max-width: 100% !important;
+} 
+/* Button Styling */
+.card button {
+    background-color: #60a5fa;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-weight: 500;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card button:hover {
+    background-color: #007bff;
+}
+
+/* Responsive Grid Styling for Cards */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    /* The min-width of columns holding your cards to 500px */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.auth-form-container {
+    width: 90vw;
+    max-width: 90%;
+    margin-bottom: 100px;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #60a5fa;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-weight: 500;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #007bff;
+}
+
+.btn-secondary {
+    background-color: #f9f9f9;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-weight: 500;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #ddd;
+}

@@ -1,31 +1,85 @@
-// Trainers.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Alert, Container, Row, Col, Card, Button } from 'react-bootstrap';
+import '../styles/trainers_trainees.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Trainers = () => {
+const TrainersPage = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [trainers, setTrainers] = useState([]);
 
     useEffect(() => {
-        // Fetch trainers data from your API and update the `trainers` state
-        // Example API call:
-        fetch('/api/trainers')
-            .then((response) => response.json())
-            .then((data) => setTrainers(data.trainers))
-            .catch((error) => console.error('Error fetching trainers:', error));
+        document.title = 'Fit & Meet | Trainers';
+        fetch('/lists/trainers-list', {
+    
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('REACT_TOKEN_AUTH_KEY')}`,
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch trainers data, status code: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            setTrainers(data);
+            setIsLoading(false);
+        })
+        .catch(error => {
+            console.error('Fetch trainers data error:', error);
+            setError(`Failed to fetch trainers data: ${error.toString()}`);
+            setIsLoading(false);
+        });
     }, []);
 
-    return (
-        <div>
-            <h1>Trainers</h1>
-            <ul>
-                {trainers.map((trainer) => (
-                    <li key={trainer.id}>
-                        <Link to={`/trainers/${trainer.id}`}>{trainer.name}</Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-};
+    if (isLoading) {
+        return <Container fluid="md"><Alert variant="info">Loading trainers data...</Alert></Container>;
+    }
 
-export default Trainers;
+    if (error) {
+        return <Container fluid="md"><Alert variant="danger">{error}</Alert></Container>;
+    }
+
+   return (
+    <div className="auth-form-container mt-5">
+        <Row>
+            <Col>
+                <h2 className="page-title">Meet Our Trainers</h2>
+                <div className="grid-container">
+                    {trainers.length > 0 ? (
+                        trainers.map((trainer, index) => (
+                            <Card key={index} className="card custom-card">
+                               
+                                <Card.Body className="trainer-card-body">
+                                    <Card.Title>{trainer.name}</Card.Title>
+                                    <Card.Text>
+                                        <p>Experience: {trainer.experience}</p>
+                                        <p>City: {trainer.city}</p>
+                                        <p>Email: {trainer.email}</p>
+                                        <p>Phone: {trainer.phone}</p>
+                                    </Card.Text>
+                                </Card.Body>
+                                <div className="trainer-card-footer">
+                                    <Button variant="primary" as={Link} to={`/profile/${trainer.id}`}>
+                                        View Profile
+                                    </Button>
+                                    <Button variant="primary" href={trainer.paylink} target="_blank">
+                                        Pay Here
+                                    </Button>
+                                </div>
+                            </Card>
+                        ))
+                    ) : (
+                        <p className="text-center">No trainers found.</p>
+                    )}
+                </div>
+            </Col>
+        </Row>
+    </div>
+);
+};
+export default TrainersPage;
