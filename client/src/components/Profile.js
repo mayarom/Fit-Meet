@@ -65,7 +65,7 @@ const ProfileComponent = () => {
     useEffect(() => {
         const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
 
-        fetch('/auth/profile', {
+        fetch('/profile/profile', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -215,9 +215,11 @@ const EditProfileComponent = () => {
     ]
 
     useEffect(() => {
+        document.title = 'Fit & Meet | Edit Profile';
+        
         const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
 
-        fetch('/auth/profile', {
+        fetch('/profile/profile', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -244,7 +246,7 @@ const EditProfileComponent = () => {
             body: JSON.stringify({ ...data })
         };
 
-        fetch('/auth/edit-profile', requestOptions)
+        fetch('/profile/edit-profile', requestOptions)
             .then((res) => res.json())
             .then((data) => {
                 console.log('API Response Data:', data); // Debugging statement
@@ -526,6 +528,10 @@ const ChangePasswordComponent = () => {
     const [passwordSuccess, setPasswordSuccess] = useState(false);
     const [error, setError] = useState(null);
 
+    useEffect(() => {
+        document.title = 'Fit & Meet | Change Password';
+    }, []);
+
     // Description: Function to handle user password change.
 
     const changePassword = (data) => {
@@ -557,7 +563,7 @@ const ChangePasswordComponent = () => {
                 body: JSON.stringify(requestBody)
             };
     
-            fetch('/auth/change-password', requestOptions)
+            fetch('/profile/change-password', requestOptions)
                 .then((res) => res.json())
                 .then((data) => {
                     console.log('API Response Data:', data); // Debugging statement
@@ -664,7 +670,7 @@ const DeleteAccountComponent = () => {
         e.preventDefault();
         const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
 
-        fetch('/auth/delete-account', {
+        fetch('/profile/delete-account', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -739,12 +745,14 @@ const UserProfileComponent = () => {
     const prevUserIdRef = useRef();
 
     useEffect(() => {
+        document.title = 'Fit & Meet | User Profile';
+
         if (prevUserIdRef.current !== userid) {
             setIsLoading(true); // Start loading
 
             const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
             
-            fetch(`/auth/profile/${userid}`, {
+            fetch(`/profile/profile/${userid}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -875,7 +883,7 @@ const UserProfileComponent = () => {
                         }
 
                         <div className="text-center">
-                            <Button href="/profile">Back to Profile</Button>
+                            <Button onClick={() => window.history.back()}>Back</Button>
                         </div>
                     </Card>
                 </Col>
