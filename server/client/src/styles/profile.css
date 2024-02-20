@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Set CSS Variables for colors and fonts */
+:root {
+    --off-white: #f9f9f9;
+    --light-blue: #add8e6;
+    --blue: #007bff;
+    --dark-blue: #0056b3;
+    --text-color: #333;
+    --font-light: 300;
+    --font-regular: 400;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --cream: #f5f5f5;
+    --white: #ffffff;
+    --light-sporty-blue: #60a5fa;
+    --pro-orange: #f97316;
+    --background-color: #F0F4F8;
+    --secondary-color: #6C757D;
+    --accent-color: #28A745;
+    --light-color: #E2E6EA;
+    --dark-color: #343A40;
+}
+
+/* Set your Page Title */
+.page-title {
+    text-align: center;
+    color: var(--blue);
+    font-size: 2.4rem;
+    font-weight: 600;
+    margin: 1rem 0;
+    /* Adjusted margin */
+    padding: 1rem;
+}
+
+/* Style the Cards that you are using */
+.card {
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 2rem ;
+    /* Ensure it's centered */
+    margin-bottom: 10rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: auto;
+    /* Remove any full-width styling */
+    max-width: 100%;
+    /* Set a max-width that looks good on your screen */
+    background: var(--white);
+    /* Ensure the background is white */
+}
+@media (min-width: 992px) {
+    .card {
+    max-width: 50%;
+        /* Adjust this percentage based on your design preference */
+    }
+}
+/* Responsive Card Styling */
+@media (min-width: 576px) {
+
+    /* Adjust breakpoint as necessary */
+    .card {
+        max-width: 90%;
+        /* Allow a little more width on larger screens */
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        max-width: 80%;
+        /* And a bit more width on even larger screens */
+    }
+}
+
+
+
+/* Style the Card Titles */
+.card .card-title {
+    font-size: 1.6rem;
+    font-weight: var(--font-bold);
+    color: var(--text-color);
+    margin-bottom: 3rem;
+}
+
+.card .card-text p {
+    font-size: 1rem;
+    /* Adjust text size as needed */
+    text-align: center;
+    /* Center align the text if desired */
+    padding: 0 2rem;
+    /* Add padding to the left and right */
+    word-wrap: break-word;
+    /* Break words at the end of the line */
+    overflow-wrap: break-word;
+    /* Ensure overflow text wraps onto the next line */
+}
+.card .card-text p a {
+    word-break: break-all;
+    /* This will break the URL to prevent overflow */
+    overflow-wrap: break-word;
+    text-decoration: none;
+    /* Optional: removes underline from links */
+    color: var(--blue);
+    /* Optional: sets the color of the link */
+}
+
+.card .card-text {
+    font-size: 1rem;
+    /* Adjust text size as needed */
+    text-align: center;
+    /* Center align the text if desired */
+    padding: 0 2rem;
+    /* Add padding to the left and right */
+}
+
+/* Style the Buttons */
+.text-center button {
+    background-color: var(--light-sporty-blue);
+    color: var(--white);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-weight: 500;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto;
+    display: inline-block;
+        /* This will make the buttons only as wide as their content */
+    width: initial;
+/* Set width to auto for default button size */
+}
+
+/* Handle Button Hover State */
+.text-center button:hover {
+    background-color: var(--dark-blue);
+}
+
+/* Style Bootstrap Row and Col Classes */
+
+.row {
+    margin: 1;
+   
+}
+
+.container-fluid>.row>.col {
+    padding: 0;
+    /* No padding on either side */
+    margin-bottom: 5px;
+}
+.profile-container {
+    margin-bottom: 2rem;
+    /* Or any other value you see fit */
+}
+.data-field {
+    background-color: var(--light-blue);
+    /* Use the color variable defined in :root */
+    padding: 10px;
+    /* Add some padding */
+    margin-bottom: 1rem;
+    /* Add some bottom margin */
+    border-radius: 5px;
+    /* Optional: add rounded corners */
+}
+
+.profile-title {
+    text-align: center;
+    color: var(--blue);
+    font-family: 'Poppins', sans-serif;
+    font-weight: var(--font-bold);
+    font-size: 3rem;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5rem 1rem;
+    background-color: var(--off-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+    max-width: 100%;
+    word-wrap: break-word;
+    width: 100%;
+}
+
+
+.profile-card {
+    border-radius: 10px;
+    /* Example style, already defined for .card */
+    padding: 4rem;
+    /* Consistent with .card */
+    margin: 10rem;
+    /* Center the card */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Standard shadow */
+    width: auto;
+    /* Allow natural width */
+    max-width: 500px;
+    /* Limit the card size */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Smooth transition for hover effects */
+  
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    /* Slightly raise the card on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Increase shadow on hover */
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    /* Outline buttons are typically transparent */
+    color: var(--blue);
+    /* Use the --blue variable for text color */
+    border: 1px solid var(--blue);
+    /* Use the --blue variable for border */
+    border-radius: 20px;
+    /* Rounded corners */
+    padding: 10px 15px;
+    /* Padding inside the button */
+    font-weight: 500;
+    /* Font weight as defined by your variables */
+    margin: 10px;
+    /* Margin around the button */
+    cursor: pointer;
+    /* Cursor to pointer to indicate it's clickable */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Transition for hover effects */
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--blue);
+    /* Background color on hover */
+    color: var(--white);
+    /* Text color on hover */
+    border-color: var(--blue);
+    /* Border color on hover to remain the same */
+}
+
+/* Button Styling */
+.card .btn {
+    width: auto;
+    /* Auto width for buttons */
+    margin: 1rem;
+    /* Provide some space between buttons */
+}
+
+/* Ensure that rows and columns do not have padding or margins that affect the layout */
+.row,
+.container-fluid>.row>.col {
+    margin: 5rem;
+    padding: 0;
+}
+
+.paylink-text {
+    display: inline-block;
+    /* Allows the element to have a width for the underline to take effect */
+    word-break: break-all;
+    /* Break the word to prevent overflow */
+    text-decoration: underline;
+    /* Underline the link */
+    margin-bottom: 1rem;
+    /* Add some space below the Paylink */
+}
+/* Add bottom margin to buttons container */
+.button-container {
+    margin-bottom: 5rem;
+    padding-top: 1rem;
+        /* Adds space above the buttons */
+    padding-bottom: 1rem;
+    /* Adjust the value as needed */
+}
+
+.trainer-card-footer {
+    background: none;
+    /* Remove background */
+    display: flex;
+    justify-content: center;
+    /* Center buttons horizontally */
+    padding: 1rem;
+
+    margin-bottom: auto;
+    /* Add some padding around the buttons */
+}
+
+.main-content {
+    min-height: 80vh;
+    /* This will ensure that the content area is at least 80% of the viewport height */
+    padding-bottom: 2rem;
+    /* Adds padding at the bottom */
+}
+
+.data-field-bg {
+    background-color: var(--light-blue);
+    /* This is your light blue variable */
+    padding: 0.5rem;
+    /* Add some padding for aesthetics */
+    border-radius: 0.25rem;
+    /* Optional: add rounded corners for style */
+    margin-bottom: 0.5rem;
+    /* Add some space between fields */
+    display: inline-block;
+    /* To wrap the background closely around the text */
+}

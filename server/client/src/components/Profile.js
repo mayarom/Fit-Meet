@@ -300,19 +300,18 @@ const EditProfileComponent = () => {
     }
 
     return (
-        <div className="main-content">
-            <h2 className="profile-title">Edit Profile</h2>
-            <Container fluid className="profile-container d-flex justify-content-center align-items-center">
-            <Row className="justify-content-center w-100">
+          <Container fluid className="d-flex justify-content-center align-items-center vh-100">
+             <Row className="w-100 justify-content-center">
+                 <h2 className="page-title">Edit Profile</h2>
                 <Col xs={12} md={8} lg={6}>
-                <Card className="profile-card">
-                    <Card.Body>
-                    <Card.Title>Edit Profile</Card.Title>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    {success && <Alert variant="success">Profile updated successfully</Alert>}
-                    <Form onSubmit={handleSubmit(editProfile)}>
-                        <Form.Group controlId="formEmail">
-                        <Form.Label>Email</Form.Label>
+                    <Card className="mx-auto" style={{ maxWidth: '500px' }}>
+                        <Card.Body>
+                            <Card.Title>Edit Profile</Card.Title>
+                            {error && <Alert variant="danger">{error}</Alert>}
+                            {success && <Alert variant="success">Profile updated successfully</Alert>}
+                            <Form onSubmit={handleSubmit(editProfile)}>
+                                <Form.Group controlId="formEmail" >
+                                    <Form.Label>Email</Form.Label>
                                     <Form.Control
                                         type="email"
                                         placeholder="Your email"
@@ -528,7 +527,6 @@ const EditProfileComponent = () => {
                 </Col>
             </Row>
         </Container>
-        </div>
     );
 };
 
