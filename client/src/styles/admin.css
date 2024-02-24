@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* Set CSS Variables for colors and fonts */
+:root {
+    --off-white: #f9f9f9;
+    --light-blue: #add8e6;
+    --blue: #007bff;
+    --dark-blue: #0056b3;
+    --text-color: #333;
+    --font-light: 300;
+    --font-regular: 400;
+    --font-semibold: 600;
+    --font-bold: 700;
+    --cream: #f5f5f5;
+    --white: #ffffff;
+    --light-sporty-blue: #60a5fa;
+    --pro-orange: #f97316;
+    --background-color: #F0F4F8;
+    --primary-color: #007BFF;
+    --secondary-color: #6C757D;
+    --accent-color: #28A745;
+    --light-color: #E2E6EA;
+    --dark-color: #343A40;
+}
+
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem;
+    padding: 20px;
+    background: var(--off-white);
+    border-radius: 2rem;
+}
+
+.admin-table {
+    width: 100%;
+    color: var(--blue);
+    text-transform: uppercase;
+    margin-top: 3rem;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+/* Style for table header */
+.admin-table thead {
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+/* Style for table cells */
+.admin-table th {
+    color: var(--dark-blue);
+    border: 1px solid var(--primary-color);
+    padding: 1rem;
+}
+
+.admin-table td {
+    color: var(--primary-color);
+    padding: 1rem;
+    border: 1px solid var(--primary-color);
+}
+
+/* Style for table body */
+.admin-table tbody tr:nth-child(even) {
+    background-color: var(--light-color);
+}
+
+.admin-table tbody tr:nth-child(odd) {
+    background-color: var(--white);
+}
+
+.admin-table tbody tr:hover {
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+
+.admin-header {
+    color: var(--blue);
+    font-family: 'Poppins', sans-serif;
+    font-weight: var(--font-bold);
+    font-size: 3rem;
+    padding: 1rem;
+    background-color: var(--off-white);
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-button {
+    color: var(--white);
+    background-color: var(--light-sporty-blue);
+    padding: 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.admin-button:hover {
+    background-color: var(--pro-orange);
+}
+
+@media only screen and (max-width: 768px) {
+    .admin-container {
+        margin: 1rem;
+    }
+
+    .admin-header {
+        font-size: 2rem;
+    }
+
+    .admin-table,
+    .admin-table th,
+    .admin-table td {
+        font-size: 0.8rem;
+    }
+
+    .admin-button {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .admin-container {
+        margin: 3rem;
+    }
+
+    .admin-header {
+        font-size: 4rem;
+    }
+
+    .admin-table,
+    .admin-table th,
+    .admin-table td {
+        font-size: 1.5rem;
+    }
+
+    .admin-button {
+        font-size: 1.5rem;
+    }
+}

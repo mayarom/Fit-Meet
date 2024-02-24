@@ -65,3 +65,22 @@ export const fetchUserProfile = () => {
             throw error; // Re-throw the error for the caller to handle if needed
         });
 };
+
+// Function to check if the user is an admin
+export const isAdmin = () => {
+    return authFetch('/profile')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch user profile');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.isAdmin === true) return true;
+            else return false; 
+        })
+        .catch(error => {
+            console.error('Profile fetch error:', error);
+            throw error; 
+        });
+};

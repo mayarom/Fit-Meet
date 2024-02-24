@@ -1,3 +1,5 @@
+#lists_api.py is a RESTful API that provides lists of users, trainees, and trainers from the database.
+
 from calendar import c
 import logging
 import stat

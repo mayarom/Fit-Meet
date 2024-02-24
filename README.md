@@ -1,132 +1,80 @@
-# 🏋️ Fit & Meet - Fitness Training System
+# 🏋️ Fit & Meet - Fitness Training Management API
 
 ## 📖 Project Description
 
-Fit & Meet is an advanced digital system developed as part of a Software Engineering course project. Designed for fitness trainers and trainees, it aims to facilitate efficient coordination and management of personal training sessions.
+Fit & Meet is a robust and feature-rich RESTful API that powers a fitness training management system. Developed as part of a Software Engineering course project, this API provides all the required endpoints for managing users, trainers, trainees, and user profile operations efficiently.
 
 ## 🌟 Key Features
 
-- **Trainers**: Create professional profiles, publish training programs, and coordinate workouts with trainees.
-- **Trainees**: Search for trainers based on specialization, register for training sessions, and track progress.
+- **User Management**: Support for full CRUD (Create, Read, Update, Delete) operations on user accounts, facilitating seamless management of user data. 
+
+- **Authentication**: Secure and stateless authentication using JSON Web Tokens (JWTs).
+
+- **Profile Management**: Users can retrieve, update, and delete their profiles and perform sensitive operations like changing their password.
+
+- **Trainer and Trainee Management**: Specialized endpoints for managing trainer and trainee accounts. Trainers can create professional profiles and publish training programs. Trainees can search for trainers based on specialization, register for training sessions, and track their progress.
 
 ## 🚀 Technologies and Structure
 
-- **Front-End**:
-  - 🎨 Developed using [React](https://reactjs.org/)
-  - Provides an intuitive and dynamic user interface.
-- **Back-End**:
-  - 🔧 Based on [Python](https://www.python.org/) and [Flask](https://flask.palletsprojects.com/en/2.0.x/)
-  - Handles API requests, user authentication, and information management.
-- **Database**:
-  - 💾 Data stored in [MySQL](https://www.mysql.org/index.html)
-  - Manages user information and training history.
-- **Cloud**:
-  - ☁️ Maintained and operated on [Microsoft Azure](https://azure.microsoft.com/)
-  - Includes services for storage and data security.
+- **Python + Flask**: The API is built using Python and Flask, which provides structure for organizing the application into units of functionality, and utilities for routing, handling requests and generating responses.
+
+- **Flask-RESTX**: An extension for Flask that adds support for quickly building REST APIs while providing user-friendly Swagger UI documentation.
+
+- **Flask-JWT-Extended**: This extension adds support for JWT-based authentication in our Flask app.
+
+- **SQLAlchemy**: It is used to handle database operations smoothly and abstracts the SQLAlchemy Core and ORM to provide a user-friendly solution to manage and query the application data.
 
 ## ⚙️ Installation and Running
 
-1. **Project Download**:
+1. **Clone the Project**:
    ```bash
    git clone https://github.com/mayarom/Fit-Meet-app.git
    ```
-2. **Development Environment Setup:**
-   - Create and activate a virtual environment:
-
+2. **Setup Environment**:
+   - Create a virtual environment using Python:
      ```bash
      python -m venv venv
-     source venv/bin/activate # Or in Windows: venv\Scripts\activate
      ```
-   - Install dependencies:
-
+   - Activate the virtual environment:
+     ```bash
+     source venv/bin/activate # For Unix-based OS
+     ```
+     ```bash
+     .\env\Scripts\activate # For Windows
+     ```
+   - Install the requirements:
      ```bash
      pip install -r requirements.txt
      ```
-   - Running the Server:
+3. **Configure Environment Variables**:
+   - Set `FLASK_ENV=development` to enable debug mode, which will allow Flask to provide more in-depth error messages.
 
-     ```bash
-     python run.py
-     ```
+4. **Running the Server**:
+   ```bash
+   python server.py
+   ```
 
-## 📌 Using the System
+## 📚 API Documentation
 
-- **Trainers**: Create a profile, schedule training sessions, and monitor trainee progress.
-- **Trainees**: Search for a suitable trainer, register for training programs, and track your progress.
+The following endpoints are available:
 
-## 📚 Database Tables
-
-### Users Table
-
-- `userID` (PK, INT, AUTO_INCREMENT) - Unique identifier for each user.
-- `username` (VARCHAR(255), UQ, NN) - Unique username.
-- `password` (VARCHAR(255), NN) - Encrypted user password.
-
-### Users Permission Table
-
-- `userID` (PK, FK, INT) - Unique user identifier, linked to the Users Table.
-- `permissions` (ENUM('trainee', 'trainer', 'admin'), NN) - Type of user permission.
-
-### Users Details Table
-
-- `userID` (PK, FK, INT) - Unique user identifier, linked to the Users Table.
-- `dob` (DATE, NN) - User's date of birth.
-- `city` (VARCHAR(255), NN) - User's city of residence.
-
-### Trainees Details Table
-
-- `userID` (PK, FK, INT) - Unique trainer identifier, linked to the Users Table.
-- `height` (DECIMAL(3,2), CHECK(height BETWEEN 1.00 AND 2.50), NN) - Trainee's height.
-- `weight` (DECIMAL(5,2), CHECK(weight BETWEEN 40.0 AND 300.0), NN) - Trainee's weight.
-- `goal` (TEXT, NN) - Trainee's training goals.
-
-### Trainers Details Table
-
-- `userID` (PK, FK, INT) - Unique trainer identifier, linked to the Users Table.
-- `experience` (TEXT, NN) - Trainer's training experience.
-- `paylink` (VARCHAR(255), NN) - Payment link for training services.
-
-### Users Contact Table
-
-- `userID` (PK, FK, INT) - Unique user identifier, linked to the Users Table.
-- `email` (VARCHAR(255), NN, UQ) - User's email address.
-- `phone` (VARCHAR(20), NN, UQ) - User's phone number.
-
-### Trainers Exercises Table
-
-- `exerciseID` (PK, INT, AUTO_INCREMENT) - Unique identifier for each exercise.
-- `userID` (FK, INT) - Unique identifier of the trainer who created the exercise, linked to the Users Table.
-- `name` (VARCHAR(255), NN) - Name of the exercise.
-- `date` (DATE, NN) - Date of the exercise.
-- `description` (TEXT, NN) - Description of the exercise.
-
-### Users Exercises Table
-
-- `exerciseID` (PK, FK, INT) - Unique identifier of the exercise, linked to the Trainers Exercises Table.
-- `userID` (PK, FK, INT) - Unique user identifier, linked to the Users Table.
-
-### Trainers Reviews Table
-
-- `trainerID` (FK, INT) - Unique trainer identifier, linked to the Users Table.
-- `userID` (FK, INT) - Unique user identifier who wrote the review, linked to the Users Table.
-- `review_stars` (INT, CHECK(review_stars BETWEEN 1 AND 5), NN) - Rating of the review (1 to 5 stars).
-- `review_description` (TEXT, NN) - Description of the review.
+- `GET /profile/<int:userid>`: Returns the profile of a user
+- `GET /profile`: Returns the profile of the currently authenticated user
+- `POST /change-password`: Changes password of the currently authenticated user
+- `POST /edit-profile`: Edits profile of the currently authenticated user
+- `DELETE /delete-account`: Deletes account of the currently authenticated user
 
 ## 👥 Development Team
 
 - Linor Ronen
 - Roy Simanovich
 - Maya Rom
+- Benji
 
-## 🤝 Contributing to the Project
+## 🤝 Contributing
 
-We welcome contributions to the development and improvement of the project. Please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your changes.
-3. Make the changes and submit a Pull Request.
-
-For more details, see [Contribution Guide](CONTRIBUTING.md).
+This project is open source. Contributions are always welcomed. Be sure to fork the repository and work on a branch of your version of the repo. We are looking forward to your open pull requests.
 
 ## 📜 License
 
-This project is distributed under the MIT License. See [LICENSE](LICENSE) for details.
+This project is distributed under the MIT License. See [LICENSE](LICENSE) for more details.
