@@ -23,6 +23,7 @@ import ExercisePage from './components/Exercise'; // Import the ExercisePage com
 import TraineesPage from './components/Trainees'; // Import the TraineesPage component
 import AdminPage from './components/Admin'; // Import the AdminPage component
 import TrainersPage from './components/Trainers';
+import UserDetail from './components/UserDetail';
 
 // App component that defines the structure of the application
 const App = () => {
@@ -70,6 +71,9 @@ const App = () => {
                     </Route>
                     <Route path="/admin/list">
                         <AdminPage/> {/* Render the AdminPage component when URL matches '/admin/list' */}
+                    </Route>
+                   <Route path="/profile/:id">
+                        <UserDetail/> 
                     </Route>
                     <Route path="/">
                         <HomePage/> {/* Render the HomePage component for the default route '/' */}

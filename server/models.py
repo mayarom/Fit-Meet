@@ -1,3 +1,5 @@
+#models.py
+
 from exts import db
 from sqlalchemy import CheckConstraint, ForeignKey, Enum
 from sqlalchemy.orm import relationship

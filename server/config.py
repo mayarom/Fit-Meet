@@ -1,3 +1,5 @@
+#config.py
+
 from decouple import config
 import os
 from datetime import timedelta

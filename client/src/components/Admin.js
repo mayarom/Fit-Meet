@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { Button, Alert, Container, Row, Col, Card, Table } from 'react-bootstrap';
-import '../styles/main.css';
+import '../styles/admin.css';
 
 const AdminPage = () => {
     const [error, setError] = useState(null);
@@ -152,16 +152,15 @@ const AdminListComponent = () => {
     }
 
     return (
-        <Container fluid="md">
-            <Card>
-                <Card.Title className="text-center">Users List (Admin Control Panel)</Card.Title>
+         <Container fluid className="admin-container">
+                <h1 className="admin-header">Users List (Admin Panel)</h1> 
                 <Card.Body>
-                    <Alert variant="info">Click on a username to view the details of that user.</Alert>
+                    <Alert variant="primary">Click on a username to view the details of that user.</Alert>
                     <Alert variant="danger">This control panel is only for debugging purposes.</Alert>
                     <Card.Text className="text-center">
                         View the list of users in the system.
                     </Card.Text>
-                    <Table striped bordered hover>
+                    <Table className="admin-table" striped bordered hover>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -200,7 +199,7 @@ const AdminListComponent = () => {
                         <Button variant="primary" href="/admin">Back to Admin Panel</Button>
                     </div>
                 </Card.Body>
-            </Card>
+            
         </Container>
     );
 }
