@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from models import UsersExercises  # Import the relevant table from models
+from models import db, UsersExercises, TrainersExercises
 from flask_jwt_extended import jwt_required
 from flask import request
 from datetime import datetime
@@ -25,19 +25,20 @@ class ExercisesResource(Resource):
         date_obj = datetime.strptime(date_str, "%Y-%m-%d") if date_str else None
 
         print("creating new exercise")
-        new_exercise = UsersExercises(
-            title=data.get("title"),
+        new_exercise = TrainersExercises(
+            name=data.get("title"),
             date=date_obj,  # Use the datetime object
             description=data.get("description")
         )
 
         print("saving new exercise")
-        new_exercise.save()
+        db.session.add(new_exercise)
+        db.session.commit()
 
         # Serialize the new exercise object to a dictionary
         exercise_data = {
             "id": new_exercise.exerciseID,
-            "title": new_exercise.title,
+            "title": new_exercise.name,
             "date": new_exercise.date.strftime("%Y-%m-%d") if new_exercise.date else None,
             "description": new_exercise.description
         }
