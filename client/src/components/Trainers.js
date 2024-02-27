@@ -68,8 +68,8 @@ return (
                                 <Button variant="primary" href={trainer.paylink} target="_blank">
                                     Pay Here
                                 </Button>
-                                <Button variant="primary" href={trainer.paylink} target="_blank">
-                                    Training list
+                                <Button variant="primary" as={Link} to={`/trainer_exercises/${trainer.name}`}>
+                                    Exercises List
                                 </Button>
                             </div>
                         </Card>

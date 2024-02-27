@@ -10,6 +10,14 @@ exercise_model = exercise_ns.model(
     "Exercise", {"id": fields.Integer(), "title": fields.String(), "description": fields.String()}
 )
 
+@exercise_ns.route("/trainer_exercises/<name>")
+class TrainerExercisesResource(Resource):
+    @exercise_ns.marshal_list_with(exercise_model)
+    def get(self, name):
+        # exercises = TrainersExercises.query.filter_by(name=name).all()
+        exercises = TrainersExercises.query.all()
+        return exercises
+
 @exercise_ns.route("/exercises")
 class ExercisesResource(Resource):
     @exercise_ns.marshal_list_with(exercise_model)
