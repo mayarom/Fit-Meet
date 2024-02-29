@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import '../styles/signup_login.css';
+import '../../styles/signup_login.css';
 
 const SignUpPage = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -22,26 +22,26 @@ const SignUpPage = () => {
     // TODO: Move this list to a separate file and import it here
     // TODO: Use the list to populate the city dropdown
     const cities = [
-                    "Acre", "Arad", "Ariel", "Ashdod", "Ashkelon", 
-                    "Bat Yam", "Beersheba", "Beit Shemesh", "Beit She'an", "Bnei Brak", 
-                    "Dimona", 
-                    "Eilat", 
-                    "Giv'atayim", 
-                    "Hadera", "Haifa", "Herzliya", "Hod HaSharon", "Holon", 
-                    "Jerusalem", 
-                    "Karmiel", "Kfar Saba", "Kiryat Ata", "Kiryat Bialik", "Kiryat Gat", "Kiryat Malakhi", "Kiryat Motzkin", "Kiryat Ono", "Kiryat Shmona", "Kiryat Yam", 
-                    "Lod", 
-                    "Ma'ale Adumim", "Migdal HaEmek", "Modi'in-Maccabim-Re'ut", "Modi'in Illit", "Nahariya", "Nazareth", "Nazareth Illit", "Nesher", "Ness Ziona", "Netanya", "Netivot", 
-                    "Ofakim", "Or Akiva", 
-                    "Petah Tikva", 
-                    "Ra'anana", "Rahat", "Ramat Gan", "Ramat HaSharon", "Ramla", "Rehovot", "Rishon LeZion", "Rosh HaAyin", 
-                    "Safed", "Sderot", 
-                    "Tel Aviv", "Tiberias", "Tira", "Tzfat", 
-                    "Yavne", "Yokneam" 
-                ]
+        "Acre", "Arad", "Ariel", "Ashdod", "Ashkelon",
+        "Bat Yam", "Beersheba", "Beit Shemesh", "Beit She'an", "Bnei Brak",
+        "Dimona",
+        "Eilat",
+        "Giv'atayim",
+        "Hadera", "Haifa", "Herzliya", "Hod HaSharon", "Holon",
+        "Jerusalem",
+        "Karmiel", "Kfar Saba", "Kiryat Ata", "Kiryat Bialik", "Kiryat Gat", "Kiryat Malakhi", "Kiryat Motzkin", "Kiryat Ono", "Kiryat Shmona", "Kiryat Yam",
+        "Lod",
+        "Ma'ale Adumim", "Migdal HaEmek", "Modi'in-Maccabim-Re'ut", "Modi'in Illit", "Nahariya", "Nazareth", "Nazareth Illit", "Nesher", "Ness Ziona", "Netanya", "Netivot",
+        "Ofakim", "Or Akiva",
+        "Petah Tikva",
+        "Ra'anana", "Rahat", "Ramat Gan", "Ramat HaSharon", "Ramla", "Rehovot", "Rishon LeZion", "Rosh HaAyin",
+        "Safed", "Sderot",
+        "Tel Aviv", "Tiberias", "Tira", "Tzfat",
+        "Yavne", "Yokneam"
+    ]
 
     const submitForm = (data) => {
-        if (data.password === data.confirmPassword && data.email === data.confirmEmail){
+        if (data.password === data.confirmPassword && data.email === data.confirmEmail) {
             const requestBody = {
                 ...data
             };
@@ -81,8 +81,8 @@ const SignUpPage = () => {
                     setServerResponse("Fatal error occurred. See console for details.");
                     setShowAlert(true);
                 });
-        } 
-        
+        }
+
         else if (data.email !== data.confirmEmail) {
             setResponseType("danger");
             setServerResponse("Emails do not match");
@@ -155,14 +155,14 @@ const SignUpPage = () => {
                         <Form.Control type="password" placeholder="Enter password" {...register("password", { required: true })} />
                         {errors.password && <p className="error-message">Please enter a password.</p>}
                     </Form.Group>
-                    
+
                     {/* Confirm Password */}
                     <Form.Group controlId="formBasicConfirmPassword">
                         <Form.Label>Confirm Password</Form.Label>
                         <Form.Control
                             type="password"
                             placeholder="Confirm password"
-                            {...register("confirmPassword", { required: true})}
+                            {...register("confirmPassword", { required: true })}
                         />
                         {errors.confirmPassword && <p className="error-message">You must confirm your password.</p>}
                     </Form.Group>
@@ -179,7 +179,7 @@ const SignUpPage = () => {
                                 // Allow only numeric keys, backspace, delete, arrow keys, and navigation keys
                                 if (
                                     (!/^\d$/.test(e.key) && // Allow only numeric keys
-                                    !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) ||
+                                        !["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) ||
                                     (currentValueLength >= maxLength && !["Backspace", "Delete"].includes(e.key))
                                 ) {
                                     e.preventDefault();

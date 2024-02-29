@@ -10,85 +10,85 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Import necessary components
-import NavBar from './components/Navbar';
-import Footer from './components/Footer';
+import NavBar from './components/Navbar'; // Import the Navbar component
+import Footer from './components/Footer'; // Import the Footer component
 
 // Import necessary pages
 import HomePage from './components/Home'; // Import the HomePage component
-import SignUpPage from './components/SignUp'; // Import the SignUpPage component
-import LoginPage from './components/Login'; // Import the LoginPage component
-import CreateExercisePage from './components/CreateExercise'; // Import the CreateExercisePage component
-import Profile from './components/Profile'; // Import the Profile component
-import ExercisePage from './components/Exercise'; // Import the ExercisePage component
-import TraineesPage from './components/Trainees'; // Import the TraineesPage component
-import AdminPage from './components/Admin'; // Import the AdminPage component
-import TrainersPage from './components/Trainers';
-import TrainerExercises from './components/TrainerExercises';
+import SignUpPage from './components/Auth/SignUp'; // Import the SignUpPage component
+import LoginPage from './components/Auth/Login'; // Import the LoginPage component
+import AdminPage from './components/Admin/Navigation'; // Import the AdminPage component
+import Profile from './components/Profile/Navigation'; // Import the Profile component
+import ExercisePage from './components/Exercises/Navigation'; // Import the ExercisePage component
+import TraineesPage from './components/Lists/Trainees'; // Import the TraineesPage component
+import TrainersPage from './components/Lists/Trainers'; // Import the TrainersPage component
 
 // App component that defines the structure of the application
 const App = () => {
- return (
- <Router>
- <div className="min-vh-100 d-flex flex-column">
- <NavBar/> {/* Render the Navbar component */}
- 
- <Switch>
- <Route path="/profile">
- <Profile/> {/* Render the Profile component when URL matches '/profile' */}
- </Route>
- <Route path="/change-password">
- <Profile/> {/* Render the Profile component when URL matches '/change-password' */}
- </Route>
- <Route path="/edit-profile">
- <Profile/> {/* Render the Profile component when URL matches '/edit-profile' */}
- </Route>
- <Route path="/delete-account">
- <Profile/> {/* Render the Profile component when URL matches '/delete-account' */}
- </Route>
- <Route path="/profile/:userid">
- <Profile/> {/* Render the Profile component when URL matches '/profile/:userid' */}
- </Route>
- <Route path="/create_exercise">
- <CreateExercisePage/> {/* Render the CreateExercisePage component when URL matches '/create_exercise' */}
- </Route>
- <Route path="/login">
- <LoginPage/> {/* Render the LoginPage component when URL matches '/login' */}
- </Route>
- <Route path="/signup">
- <SignUpPage/> {/* Render the SignUpPage component when URL matches '/signup' */}
- </Route> 
- <Route path="/exercises">
- <ExercisePage/> {/* Render the ExercisePage component when URL matches '/exercises' */}
- </Route>
- <Route path="/trainees">
- <TraineesPage/> {/* Render the traineesPage component when URL matches '/trainees' */}
- </Route>
- <Route path="/trainers">
- <TrainersPage/> {/* Render the trainersPage component when URL matches '/trainers' */}
- </Route>
- <Route path="/admin">
- <AdminPage/> {/* Render the AdminPage component when URL matches '/admin' */}
- </Route>
- <Route path="/admin/list">
- <AdminPage/> {/* Render the AdminPage component when URL matches '/admin/list' */}
- </Route>
- <Route path="/trainer_exercises/:name">
- <TrainerExercises/> {/* Render the TrainerExercises component when URL matches '/trainer_exercises/:trainerId'/}
- </Route>
- <Route path="/">
- <HomePage/> {/* Render the HomePage component for the default route '/' */}
- </Route>
- </Switch>
- <Footer/>
- </div>
- </Router>
- );
+    return (
+        <Router>
+            <div className="min-vh-100 d-flex flex-column">
+                <NavBar /> {/* Render the Navbar component */}
+
+                { /* Define the routes for the application */ }
+                <Switch>
+                    { /* Login and Signup components */}
+                    <Route path="/login">
+                        <LoginPage /> {/* Render the LoginPage component when URL matches '/login' */}
+                    </Route>
+                    
+                    <Route path="/signup">
+                        <SignUpPage /> {/* Render the SignUpPage component when URL matches '/signup' */}
+                    </Route>
+
+                    { /* Profile components are rendered for multiple routes */}
+                    <Route path="/profile">
+                        <Profile /> {/* Render the Profile component when URL matches '/profile' */}
+                    </Route>
+
+
+                    { /* List of trainees and trainers components */}
+                    <Route path="/trainees">
+                        <TraineesPage /> {/* Render the traineesPage component when URL matches '/trainees' */}
+                    </Route>
+
+                    <Route path="/trainers">
+                        <TrainersPage /> {/* Render the trainersPage component when URL matches '/trainers' */}
+                    </Route>
+
+
+                    { /* Exercise components are rendered for multiple routes */}
+                    <Route path="/exercises">
+                        <ExercisePage /> {/* Render the ExercisePage component when URL matches '/exercises' */}
+                    </Route>
+
+
+                    { /* Admin components */}
+                    <Route path="/admin">
+                        <AdminPage /> {/* Render the AdminPage component when URL matches '/admin' */}
+                    </Route>
+                    <Route path="/admin/list">
+                        <AdminPage /> {/* Render the AdminPage component when URL matches '/admin/list' */}
+                    </Route>
+
+                    { /* Homepage component */}
+                    <Route path="/">
+                        <HomePage /> {/* Render the HomePage component for the default route '/' */}
+                    </Route>
+                
+                </Switch>
+                { /* End of routes */ }
+
+                <Footer /> {/* Render the Footer component */}
+            </div>
+        </Router>
+    );
 };
 
 // Render the entire application
 ReactDOM.render(
- <React.StrictMode>
- <App/>
- </React.StrictMode>,
- document.getElementById('root') // Render the app in the 'root' element of the HTML
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+    document.getElementById('root') // Render the app in the 'root' element of the HTML
 );

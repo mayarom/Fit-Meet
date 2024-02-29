@@ -1,51 +1,86 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Alert, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import '../styles/signup_login.css';
+import '../../styles/LoggedOutHome.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const CreateExercisePage = () => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+const ExercisePageCreate = () => {
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
     const [submitting, setSubmitting] = useState(false);
-    const [message, setMessage] = useState({ text: '', type: '' });
 
     const createExercise = (data) => {
-        setSubmitting(true);
         const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
 
-        const requestOptions = {
+        if (!token) {
+            console.log("User not logged in");
+            setError("Access denied. Please log in to view this page.");
+            return;
+        }
+
+        setSubmitting(true);
+
+        fetch('/exercise/create-exercise', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${JSON.parse(token)}`,
+                'Authorization': `Bearer ${JSON.parse(token)}`
             },
-            body: JSON.stringify(data),
-        };
-
-        console.log("We are in exercise/exercises"); // Corrected print statement
-        fetch('/exercise/exercises', requestOptions)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error('Network response was not ok, error code: ' + res.status);
-                }
-                return res.json();
-            })
-            .then(data => {
-                reset();
-                setMessage({ text: 'Exercise created successfully!', type: 'success' });
-            })
-            .catch(err => {
-                setMessage({ text: err.message, type: 'danger' });
-            })
-            .finally(() => {
-                setSubmitting(false);
-            });
-        console.log("finished exercise/exercises"); // Corrected print statement
+            body: JSON.stringify(data)
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to create exercise');
+            }
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            setSuccess(data.message);
+            setSubmitting(false);
+        }).catch(error => {
+            console.error('Create exercise error:', error);
+            setError('Failed to create exercise');
+            setSubmitting(false);
+        });
     };
 
-       return (
+    useEffect(() => {
+        document.title = 'Fit & Meet | Create Exercise';
+
+        const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
+
+        if (!token) {
+            console.log("User not logged in");
+            setError("Access denied. Please log in to view this page.");
+            return;
+        }
+
+        fetch('/auth/get-permissions', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${JSON.parse(token)}`
+            }
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch user permissions');
+            }
+            return response.json();
+        }).then(data => {
+            if (data.permissions !== 'trainer' && data.permissions !== 'admin') {
+                setError('You do not have permission to view this page');
+            }
+        }).catch(error => {
+            console.error('Fetch permissions error:', error);
+            setError('Failed to fetch user permissions');
+        });
+    }, []);
+
+    return (
         <div className="auth-form-container mt-5">
             <h1 className="page-title">Create An Exercise</h1>
-            {message.text && <Alert variant={message.type}>{message.text}</Alert>}
+            {error && <Alert variant="danger">{error}</Alert>}
+            {success && <Alert variant="success">{success}</Alert>}
             <Form onSubmit={handleSubmit(createExercise)} noValidate>
                 <Form.Group as={Col} md="6" className="form-group">
                     <Form.Label htmlFor="title" className="form-label">Title</Form.Label>
@@ -98,4 +133,4 @@ const CreateExercisePage = () => {
     );
 };
 
-export default CreateExercisePage;
+export default ExercisePageCreate; // Export the ExercisePageCreate component

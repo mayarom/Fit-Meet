@@ -1,10 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Card, Modal, Form } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-import '../styles/LoggedOutHome.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {  Alert, Container } from 'react-bootstrap';
+import '../../styles/LoggedOutHome.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-// Define the ExerciseComponent here
+// Import all the exercise page components here
+import ExercisePageMain from './Main';
+import ExercisePageCreate from './Create';
+import ExercisePageList from './List';
+import ExercisePageDetails from './Details';
+import ExercisePageEdit from './Edit';
+
+const ExercisePage = () => {
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        document.title = 'Fit & Meet | Exercises';
+
+        const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
+
+        if (!token) {
+            console.log("User not logged in");
+            setError("Access denied. Please log in to view this page.");
+            return;
+        }
+    }, []);
+
+    if (error) {
+        return (
+            <Container>
+                <Alert variant="danger">{error}</Alert>
+            </Container>
+        );
+    }
+
+    return (
+        <Router>
+            <Switch>
+                <Route exact path="/exercises">
+                    <ExercisePageMain /> {/* Main exercise page, shows all exercises related to the user: registered exercises for trainees, and trainer's exercises for trainers */}
+                </Route>
+
+                <Route path="/exercises/create">
+                    <ExercisePageCreate /> {/* Create exercise page, only available to trainers */}
+                </Route>
+
+                <Route path="/exercises/list/:userid">
+                    <ExercisePageList /> {/* List of exercises for a specific trainer */}
+                </Route>
+
+                <Route path="/exercises/details/:exerciseId"> {/* Details of a specific exercise */}
+                    <ExercisePageDetails />
+                </Route>
+
+                <Route path="/exercises/edit/:exerciseId"> {/* Edit a specific exercise */}
+                    <ExercisePageEdit />
+                </Route>
+            </Switch>
+        </Router>
+    );
+};
+
+/* // Define the ExerciseComponent here
 const ExerciseComponent = ({ title, date, description, onClick, onDelete }) => {
     return (
         <Card style={{ width: '18rem' }}>
@@ -18,13 +75,13 @@ const ExerciseComponent = ({ title, date, description, onClick, onDelete }) => {
         </Card>
     );
 } // <-- Add this closing brace
-
+ 
 const ExercisePage = () => {
     const [exercises, setExercises] = useState([]);
     const [show, setShow] = useState(false);
     const { register, reset, handleSubmit, setValue, formState: { errors } } = useForm();
     const [exerciseId, setExerciseId] = useState(0);
-
+ 
     useEffect(() => {
         fetch('/exercise/exercises')
             .then(res => res.json())
@@ -33,11 +90,11 @@ const ExercisePage = () => {
             })
             .catch(err => console.log(err));
     }, []);
-
+ 
     const closeModal = () => {
         setShow(false);
     }
-
+ 
     const showModal = (id) => {
         setShow(true);
         setExerciseId(id);
@@ -48,9 +105,9 @@ const ExercisePage = () => {
             }
         });
     }
-
+ 
     let token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
-
+ 
     const updateExercise = (data) => {
         const requestOptions = {
             method: 'PUT',
@@ -60,7 +117,7 @@ const ExercisePage = () => {
             },
             body: JSON.stringify(data)
         };
-
+ 
         fetch(`/exercise/exercise/${exerciseId}`, requestOptions)
             .then(res => res.json())
             .then(data => {
@@ -70,7 +127,7 @@ const ExercisePage = () => {
             })
             .catch(err => console.log(err));
     }
-
+ 
     const deleteExercise = (id) => {
         const requestOptions = {
             method: 'DELETE',
@@ -79,7 +136,7 @@ const ExercisePage = () => {
                 'Authorization': `Bearer ${JSON.parse(token)}`
             }
         };
-
+ 
         fetch(`/exercise/exercise/${id}`, requestOptions)
             .then(res => res.json())
             .then(data => {
@@ -89,17 +146,17 @@ const ExercisePage = () => {
             })
             .catch(err => console.log(err));
     }
-
+ 
     return (
         <div>
-            {/* Display Exercises */}
+            { Display Exercises }
             <div className="container mt-5">
                 <h1>List of Exercises:</h1>
                 <div className="exercise-list">
                     {exercises.map((exercise, index) => (
                         <div key={index} className="exercise-item">
-                            {/* Use the ExerciseComponent here */}
-                            {/* Replace ExerciseComponent with the actual component */}
+                            { Use the ExerciseComponent here }
+                            { Replace ExerciseComponent with the actual component }
                             <ExerciseComponent
                                 title={exercise.title}
                                 date={exercise.date}
@@ -113,6 +170,6 @@ const ExercisePage = () => {
             </div>
         </div>
     );
-}
+} */
 
 export default ExercisePage;

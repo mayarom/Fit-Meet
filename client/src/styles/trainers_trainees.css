@@ -23,6 +23,7 @@
     --light-color: #E2E6EA;
     --dark-color: #343A40;
 }
+
 .profile-title {
     text-align: center;
     color: var(--blue);
@@ -53,9 +54,10 @@
     max-width: 100%;
     /* Remove this line if it exists and is causing an issue */
 }
+
 .bg-primary {
     background-color: #343a40 !important;
-    
+
 }
 
 /* Base Styling */
@@ -116,6 +118,7 @@ body {
     align-items: center;
     text-align: center;
 }
+
 /* Button Styling */
 .card button {
     background-color: #60a5fa;
