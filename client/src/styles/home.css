@@ -23,6 +23,7 @@
     --light-color: #E2E6EA;
     --dark-color: #343A40;
 }
+
 .profile-title {
     text-align: center;
     color: var(--blue);
@@ -52,6 +53,7 @@
     word-wrap: break-word;
     /* If the title is long, it should wrap */
 }
+
 .home-container {
     display: flex;
     flex-direction: column;
@@ -100,6 +102,7 @@
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
+
 .my-btn:hover {
     background-color: var(--pro-orange);
 }

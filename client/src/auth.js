@@ -9,12 +9,12 @@ export const [useAuth, authFetch, login, logout] = createAuthProvider({
         },
         body: JSON.stringify({ refresh_token: token.refresh_token })
     })
-    .then(r => {
-        if (!r.ok) {
-            throw new Error('Failed to refresh token');
-        }
-        return r.json();
-    })
+        .then(r => {
+            if (!r.ok) {
+                throw new Error('Failed to refresh token');
+            }
+            return r.json();
+        })
 });
 
 // Function to handle user login
@@ -26,21 +26,21 @@ export const loginUser = (username, password) => {
         },
         body: JSON.stringify({ username, password }),
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Login failed');
-        }
-        return response.json();
-    })
-    .then(data => {
-        login(data.access_token);
-        localStorage.setItem('username', data.user.name);
-        return data.user; // Return user data for further processing if needed
-    })
-    .catch(error => {
-        console.error('Login error:', error);
-        throw error; // Re-throw the error for the caller to handle if needed
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+            return response.json();
+        })
+        .then(data => {
+            login(data.access_token);
+            localStorage.setItem('username', data.user.name);
+            return data.user; // Return user data for further processing if needed
+        })
+        .catch(error => {
+            console.error('Login error:', error);
+            throw error; // Re-throw the error for the caller to handle if needed
+        });
 };
 
 export const logoutUser = () => {
@@ -77,10 +77,10 @@ export const isAdmin = () => {
         })
         .then(data => {
             if (data.isAdmin === true) return true;
-            else return false; 
+            else return false;
         })
         .catch(error => {
             console.error('Profile fetch error:', error);
-            throw error; 
+            throw error;
         });
 };

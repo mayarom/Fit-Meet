@@ -38,7 +38,7 @@
 .card {
     border-radius: 10px;
     padding: 2rem;
-    margin: 2rem ;
+    margin: 2rem;
     /* Ensure it's centered */
     margin-bottom: 10rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -49,12 +49,14 @@
     background: var(--white);
     /* Ensure the background is white */
 }
+
 @media (min-width: 992px) {
     .card {
-    max-width: 50%;
+        max-width: 50%;
         /* Adjust this percentage based on your design preference */
     }
 }
+
 /* Responsive Card Styling */
 @media (min-width: 576px) {
 
@@ -94,6 +96,7 @@
     overflow-wrap: break-word;
     /* Ensure overflow text wraps onto the next line */
 }
+
 .card .card-text p a {
     word-break: break-all;
     /* This will break the URL to prevent overflow */
@@ -126,9 +129,9 @@
     transition: background-color 0.3s ease;
     width: auto;
     display: inline-block;
-        /* This will make the buttons only as wide as their content */
+    /* This will make the buttons only as wide as their content */
     width: initial;
-/* Set width to auto for default button size */
+    /* Set width to auto for default button size */
 }
 
 /* Handle Button Hover State */
@@ -140,7 +143,7 @@
 
 .row {
     margin: 1;
-   
+
 }
 
 .container-fluid>.row>.col {
@@ -148,10 +151,12 @@
     /* No padding on either side */
     margin-bottom: 5px;
 }
+
 .profile-container {
     margin-bottom: 2rem;
     /* Or any other value you see fit */
 }
+
 .data-field {
     background-color: var(--light-blue);
     /* Use the color variable defined in :root */
@@ -199,7 +204,7 @@
     /* Limit the card size */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     /* Smooth transition for hover effects */
-  
+
 }
 
 .profile-card:hover {
@@ -264,11 +269,12 @@
     margin-bottom: 1rem;
     /* Add some space below the Paylink */
 }
+
 /* Add bottom margin to buttons container */
 .button-container {
     margin-bottom: 5rem;
     padding-top: 1rem;
-        /* Adds space above the buttons */
+    /* Adds space above the buttons */
     padding-bottom: 1rem;
     /* Adjust the value as needed */
 }

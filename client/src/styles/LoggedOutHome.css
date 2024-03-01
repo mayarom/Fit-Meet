@@ -7,25 +7,30 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    margin-top: 40px; /* Increased margin for more spacing */
+    margin-top: 40px;
+    /* Increased margin for more spacing */
 }
 
 .home-container {
     text-align: center;
-    padding: 60px 20px; /* Increased padding for more spacing */
+    padding: 60px 20px;
+    /* Increased padding for more spacing */
 }
 
 .heading {
     color: #345678;
-    margin-bottom: 20px; /* Adjusted margin for better spacing */
+    margin-bottom: 20px;
+    /* Adjusted margin for better spacing */
     font-size: 2.8em;
-    margin-top: 20px; /* Adjusted margin for better spacing */
+    margin-top: 20px;
+    /* Adjusted margin for better spacing */
 }
 
 .tagline {
     font-style: italic;
     color: #676767;
-    margin-bottom: 20px; /* Adjusted margin for better spacing */
+    margin-bottom: 20px;
+    /* Adjusted margin for better spacing */
     font-size: 1.3em;
 }
 
@@ -34,15 +39,18 @@ body {
     max-width: 100%;
     height: auto;
     border-radius: 15px;
-    margin-bottom: 40px; /* Increased margin for more spacing */
+    margin-bottom: 40px;
+    /* Increased margin for more spacing */
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .get-started-btn {
     background-color: #5C6BC0;
     color: white;
-    padding: 15px 30px; /* Adjusted padding for better proportion */
-    margin-top: 20px; /* Added margin for better spacing */
+    padding: 15px 30px;
+    /* Adjusted padding for better proportion */
+    margin-top: 20px;
+    /* Added margin for better spacing */
     border-radius: 8px;
     text-transform: uppercase;
     font-weight: 700;
@@ -59,8 +67,10 @@ body {
     display: inline-block;
     box-sizing: border-box;
     cursor: pointer;
-    padding: 15px 30px; /* Adjusted padding for better proportion */
-    margin: 10px; /* Added margin for better spacing */
+    padding: 15px 30px;
+    /* Adjusted padding for better proportion */
+    margin: 10px;
+    /* Added margin for better spacing */
     border: none;
     border-radius: 5px;
     font-size: 1em;
@@ -82,7 +92,8 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin: 20px 0; /* Adjusted margin for better spacing */
+    margin: 20px 0;
+    /* Adjusted margin for better spacing */
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
@@ -124,7 +135,8 @@ body {
     }
 
     .card {
-        margin: 20px 0; /* Adjusted margin for better spacing */
+        margin: 20px 0;
+        /* Adjusted margin for better spacing */
     }
 }
 
