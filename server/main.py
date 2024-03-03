@@ -5,6 +5,7 @@ from exts import db
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from exercises import exercise_ns
+from reviews import review_ns
 from auth import auth_ns
 from profile_api import profile_ns
 from lists_api import lists_ns
@@ -32,6 +33,7 @@ def create_app(config):
 
     api = Api(app, version='1.0', title='My API', description='A simple API', doc="/docs")
     api.add_namespace(exercise_ns)
+    api.add_namespace(review_ns)
     api.add_namespace(auth_ns)
     api.add_namespace(profile_ns)
     api.add_namespace(lists_ns)

@@ -44,7 +44,8 @@ trainer_details_model = profile_ns.model(
     "TrainerDetails",
     {
         "experience": fields.String(description="The trainer's experience"),
-        "paylink": fields.String(description="The trainer's payment link")
+        "paylink": fields.String(description="The trainer's payment link"),
+        "trainer_id": fields.Integer(description="The ID of the trainer")
     }
 )
 
@@ -143,7 +144,8 @@ class UserProfile(Resource):
                     } if RetTraineeDetail else None,
                     "trainer_details": {
                         "experience": RetTrainerDetail.experience,
-                        "paylink": RetTrainerDetail.paylink
+                        "paylink": RetTrainerDetail.paylink,
+                        "trainer_id": RetTrainerDetail.userID
                     } if RetTrainerDetail else None,
                     "trainer_reviews": [
                         {
