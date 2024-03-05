@@ -64,7 +64,9 @@ class UsersExercises(db.Model):
 
 # Trainers Reviews model
 class TrainersReviews(db.Model):
+    reviewID = db.Column(db.Integer, nullable=False, primary_key=False)
     trainerID = db.Column(db.Integer, ForeignKey('users.userID'), nullable=False, primary_key=False)
     userID = db.Column(db.Integer, ForeignKey('users.userID'), nullable=False, primary_key=False)
     review_stars = db.Column(db.Integer, CheckConstraint('review_stars >= 1 AND review_stars <= 5'), nullable=False)
     review_description = db.Column(db.Text, nullable=False, primary_key=True)
+
