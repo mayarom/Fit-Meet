@@ -1,5 +1,5 @@
 # 🏋️ Fit & Meet - Fitness Training Management API
-
+### Presentation: https://docs.google.com/presentation/d/1O1hMb0q88Y8B75xORcmrK6DbuDEdomEy/edit?usp=sharing&ouid=103104202947156141205&rtpof=true&sd=true
 ## 📖 Project Description
 
 Fit & Meet is a robust and feature-rich RESTful API that powers a fitness training management system. Developed as part of a Software Engineering course project, this API provides all the required endpoints for managing users, trainers, trainees, and user profile operations efficiently.
