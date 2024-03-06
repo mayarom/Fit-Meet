@@ -178,6 +178,7 @@ const AdminExercisesComponent = () => {
 
                                 <td>
                                     <Link to={`/exercises/edit/${exercise.id}`}><Button variant="info">Edit</Button></Link>
+                                    <Link to={`/exercises/details/${exercise.id}`}><Button variant="primary">Details</Button></Link>
                                     <Button variant="danger" onClick={() => deleteExercise(exercise.id)}>Delete</Button>
                                 </td>
                             </tr>

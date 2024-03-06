@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Row, Col, Card } from 'react-bootstrap';
+import { FaStar } from 'react-icons/fa'; // Import the star icon from react-icons/fa
 import '../../styles/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+// Beautiful star rating component
+const StarRating = ({ rating }) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+        if (i < rating) {
+            stars.push(<FaStar key={i} color="gold" />);
+        } else {
+            stars.push(<FaStar key={i} color="lightgray" />);
+        }
+    }
+    return <>{stars}</>;
+};
 
 const ProfileComponent = () => {
     const [user, setUser] = useState({
@@ -86,13 +100,6 @@ const ProfileComponent = () => {
                                     </>
                                 )}
 
-                                {user.basic_details.permissions === "admin" && (
-                                    <>
-                                        {/* Admin details can be added here */}
-                                        <p>Admin Information</p>
-                                    </>
-                                )}
-
                                 {user.basic_details.permissions !== "trainee" && user.basic_details.permissions !== "trainer" && user.basic_details.permissions !== "admin" && (
                                     <p>Invalid permissions</p>
                                 )}
@@ -100,30 +107,26 @@ const ProfileComponent = () => {
 
                         </Card.Body>
 
-                        {user.basic_details.permissions === "trainer" ?
+                        {user.basic_details.permissions === "trainer" && (
                             <Card.Body>
-                                <Card.Title>Reviews</Card.Title>
-                                <Card.Text>
-                                    {user.trainer_reviews != null ?
-                                        user.trainer_reviews.map(review => {
-                                            return (
-                                                <Card key={review._id}>
-                                                    <Card.Body>
-                                                        <Card.Title>{review.title}</Card.Title>
-                                                        <Card.Text>
-                                                            <p>{review.body}</p>
-                                                            <p>Rating: {review.rating}</p>
-                                                        </Card.Text>
-                                                    </Card.Body>
-                                                </Card>
-                                            );
-                                        })
-                                        : <p>No reviews yet!</p>
-                                    }
-                                </Card.Text>
+                                <Card.Title className="card-title text-center">Reviews</Card.Title>
+                                {user.trainer_reviews && user.trainer_reviews.length > 0 ? (
+                                    user.trainer_reviews.map(review => (
+                                        <Card key={review.user_id} className="mb-2">
+                                            <Card.Body>
+                                                <Card.Title className="card-title">{review.username}'s Review</Card.Title>
+                                                <Card.Text className="card-text">
+                                                    <p>Rating: <StarRating rating={review.stars} /></p> {/* Display star rating */}
+                                                    <p>{review.description}</p>
+                                                </Card.Text>
+                                            </Card.Body>
+                                        </Card>
+                                    ))
+                                ) : (
+                                    <p>No reviews yet!</p>
+                                )}
                             </Card.Body>
-                            : null
-                        }
+                        )}
 
                         <div className="trainer-card-footer">
                             <Button variant="primary" href="/profile/edit">Edit Profile</Button>

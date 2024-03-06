@@ -22,7 +22,11 @@ import Profile from './components/Profile/Navigation'; // Import the Profile com
 import ExercisePage from './components/Exercises/Navigation'; // Import the ExercisePage component
 import TraineesPage from './components/Lists/Trainees'; // Import the TraineesPage component
 import TrainersPage from './components/Lists/Trainers'; // Import the TrainersPage component
+
+// Other pages
 import NotFoundPage from './components/NotFound'; // Import the NotFoundPage component
+import PrivacyPage from './components/Privacy'; // Import the PrivacyPage component
+import TermsPage from './components/Terms'; // Import the TermsPage component
 
 // App component that defines the structure of the application
 const App = () => {
@@ -65,7 +69,18 @@ const App = () => {
 
 
                     { /* Admin components */}
-                    <Route path="/admin" element={<AdminPage />} /> {/* Render the AdminPage component when URL matches '/admin' */}
+                    <Route path="/admin">
+                        <AdminPage /> {/* Render the AdminPage component when URL matches '/admin' */}
+                    </Route>
+
+                    { /* Privacy and Terms components */}
+                    <Route path="/privacy">
+                        <PrivacyPage /> {/* Render the PrivacyPage component when URL matches '/privacy' */}
+                    </Route>
+
+                    <Route path="/terms">
+                        <TermsPage /> {/* Render the TermsPage component when URL matches '/terms' */}
+                    </Route>
 
                     { /* Homepage component */}
                     <Route path="/" exact>
