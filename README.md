@@ -69,7 +69,7 @@ The following endpoints are available:
 - Linor Ronen
 - Roy Simanovich
 - Maya Rom
-- Benji
+- Benji Kehat
 
 ## 🤝 Contributing
 
