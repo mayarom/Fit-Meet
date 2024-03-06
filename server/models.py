@@ -59,7 +59,7 @@ class TrainersExercises(db.Model):
 
 # Users Exercises model
 class UsersExercises(db.Model):
-    exerciseID = db.Column(db.Integer, primary_key=True)
+    exerciseID = db.Column(db.Integer, ForeignKey('trainers_exercises.exerciseID'), primary_key=True)
     userID = db.Column(db.Integer, ForeignKey('users.userID'), primary_key=True)
 
 # Trainers Reviews model

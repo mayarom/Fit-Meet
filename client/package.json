@@ -12,6 +12,7 @@
     "react-bootstrap": "^2.0.0-beta.4",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.12.2",
+    "react-icons": "^4.3.1",
     "react-router-dom": "^5.3.4",
     "react-scripts": "^4.0.3",
     "react-token-auth": "^1.1.8",
@@ -43,7 +44,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3",
-    "@babel/plugin-proposal-private-property-in-object": "^7.16.7"
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
+    "@types/react-router-dom": "^5.3.3"
   }
 }

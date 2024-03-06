@@ -17,7 +17,9 @@ const ExercisePageDetails = () => {
             id: 0,
             title: "",
             date: "",
-            description: ""
+            description: "",
+            trainername: "",
+            trainerID: 0
         }
     });
 
@@ -118,7 +120,7 @@ const ExercisePageDetails = () => {
                 <Col>
                     <Card>
                         <Card.Body>
-                            <Card.Title>{exercises.title}</Card.Title>
+                            <Card.Title>{exercises.title}, by <Link to={`/profile/${exercises.trainerID}`}>{exercises.trainername}</Link></Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">{exercises.date}</Card.Subtitle>
                             <Card.Text>{exercises.description}</Card.Text>
                             {permissions === 'trainer' && <Link to={`/exercises/details/${exercises.id}/edit`}><Button variant="primary">Edit</Button></Link>}

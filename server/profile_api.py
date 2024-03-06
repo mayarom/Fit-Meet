@@ -54,6 +54,7 @@ trainer_review_model = profile_ns.model(
     {
         "trainer_id": fields.Integer(description="The ID of the trainer being reviewed"),
         "user_id": fields.Integer(description="The ID of the user leaving the review"),  # This is the user leaving the review
+        "username": fields.String(description="The user's username who made the review"),
         "stars": fields.Integer(description="The number of stars for the review"),
         "description": fields.String(description="The review description")
     }
@@ -151,6 +152,7 @@ class UserProfile(Resource):
                         {
                             "trainer_id": review.trainerID,
                             "user_id": review.userID,
+                            "username": Users.query.get(review.userID).username,
                             "stars": review.review_stars,
                             "description": review.review_description
                         } for review in RetTrainersReviews
@@ -218,6 +220,7 @@ class Profile(Resource):
                     {
                         "trainer_id": review.trainerID,
                         "user_id": review.userID,
+                        "username": Users.query.get(review.userID).username,
                         "stars": review.review_stars,
                         "description": review.review_description
                     } for review in RetTrainersReviews

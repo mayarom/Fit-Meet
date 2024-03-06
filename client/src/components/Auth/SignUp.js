@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import '../../styles/signup_login.css';
+import { useAuth } from '../../auth';
 
 const SignUpPage = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -16,6 +17,10 @@ const SignUpPage = () => {
 
     // Used to determine which option is selected in the dropdown of "Who are you?"
     const [selectedOption, setSelectedOption] = useState("");
+
+    // Used to determine if the user is logged in already
+    const [logged] = useAuth();
+    const history = useHistory();
 
     // List of cities in Israel
     // TODO: Add more cities
@@ -100,6 +105,15 @@ const SignUpPage = () => {
             setShowAlert(true);
         }
     };
+
+    if (logged) {
+        history.push('/');
+        return (
+            <div className="container mt-5">
+                <Alert variant="info">You are already logged in</Alert>
+            </div>
+        );
+    }
 
     return (
         <div className="container mt-5">

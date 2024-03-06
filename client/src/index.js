@@ -22,6 +22,7 @@ import Profile from './components/Profile/Navigation'; // Import the Profile com
 import ExercisePage from './components/Exercises/Navigation'; // Import the ExercisePage component
 import TraineesPage from './components/Lists/Trainees'; // Import the TraineesPage component
 import TrainersPage from './components/Lists/Trainers'; // Import the TrainersPage component
+import NotFoundPage from './components/NotFound'; // Import the NotFoundPage component
 
 // App component that defines the structure of the application
 const App = () => {
@@ -64,18 +65,17 @@ const App = () => {
 
 
                     { /* Admin components */}
-                    <Route path="/admin">
-                        <AdminPage /> {/* Render the AdminPage component when URL matches '/admin' */}
-                    </Route>
-                    <Route path="/admin/list">
-                        <AdminPage /> {/* Render the AdminPage component when URL matches '/admin/list' */}
-                    </Route>
+                    <Route path="/admin" element={<AdminPage />} /> {/* Render the AdminPage component when URL matches '/admin' */}
 
                     { /* Homepage component */}
-                    <Route path="/">
+                    <Route path="/" exact>
                         <HomePage /> {/* Render the HomePage component for the default route '/' */}
                     </Route>
-                
+
+                    { /* 404 page */}
+                    <Route>
+                        <NotFoundPage /> {/* Route for the 404 page */}
+                    </Route>
                 </Switch>
                 { /* End of routes */ }
 

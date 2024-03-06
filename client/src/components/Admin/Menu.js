@@ -15,6 +15,7 @@ const AdminComponent = () => {
                             </Card.Text>
                             <div className="text-center">
                                 <Button variant="primary" href="/admin/list">View Users</Button>
+                                <Button variant="primary" href="/admin/exercises">View Exercises</Button>
                             </div>
                         </Card.Body>
                     </Card>

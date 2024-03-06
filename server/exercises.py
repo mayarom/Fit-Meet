@@ -47,7 +47,36 @@ exercise_model_details_single = exercise_ns.model(
         "id": fields.Integer(description="The ID of the exercise"),
         "title": fields.String(description="The title of the exercise"),
         "date": fields.String(description="The date of the exercise"),
-        "description": fields.String(description="The description of the exercise")
+        "description": fields.String(description="The description of the exercise"),
+        "trainername": fields.String(description="The name of the trainer who created the exercise"),
+        "trainerID": fields.Integer(description="The ID of the trainer who created the exercise")
+    }
+)
+
+exercise_model_trainee_register_details = exercise_ns.model(
+    "ExerciseTraineeRegisterDetails", {
+        "id": fields.Integer(description="The ID of the user"),
+        "username": fields.String(description="The username of the user")
+    }
+)
+
+exercise_model_exercise_list_details = exercise_ns.model(
+    "ExerciseListDetails", {
+        "id": fields.Integer(description="The ID of the exercise"),
+        "title": fields.String(description="The title of the exercise"),
+        "date": fields.String(description="The date of the exercise"),
+        "description": fields.String(description="The description of the exercise"),
+        "trainer_id": fields.Integer(description="The ID of the trainer who created the exercise"),
+        "trainer_name": fields.String(description="The name of the trainer who created the exercise"),
+        "registered_users": fields.List(fields.Nested(exercise_model_trainee_register_details), description="A list of registered users")
+    }
+)
+
+exercise_model_exercise_list_nested = exercise_ns.model(
+    "ExerciseListNested", {
+        "message": fields.String(description="A message to describe the result of the operation"),
+        "success": fields.Boolean(description="A boolean to indicate if the operation was successful"),
+        "exercises": fields.List(fields.Nested(exercise_model_exercise_list_details), description="A list of exercises")
     }
 )
     
@@ -113,7 +142,7 @@ class TrainerExercisesListResource(Resource):
             response_data = { "message": "The given user is not a trainer", "error": "The user with the specified ID is not a trainer", "success": False }
             return Response(response_data, mimetype="application/json", status=418) # I'm a teapot (RFC 2324)
         
-        exercise_to_delete = TrainersExercises.query.get(exerciseID=id)
+        exercise_to_delete = TrainersExercises.query.get(id)
 
         if not exercise_to_delete:
             response_data = { "message": "Exercise not found", "error": "The exercise with the specified ID does not exist", "success": False }
@@ -129,8 +158,8 @@ class TrainerExercisesListResource(Resource):
         db.session.delete(exercise_to_delete)
         db.session.commit()
 
-        response_data = { "message": "Exercise deleted successfully", "success": True }
-        return Response(response_data, mimetype="application/json", status=204)
+        response_data = { "message": "Exercise deleted successfully", "success": True, "id": id }
+        return response_data, 200
     
     @jwt_required()
     def put(self, id):
@@ -239,13 +268,17 @@ class ExerciseResource(Resource):
             response_data = { "message": "The exercise with the specified ID does not exist", "success": False }
             return Response(response_data, mimetype="application/json", status=404)
         
+        trainer_name = Users.query.filter_by(userID=exercise_details.userID).first().username
+        
         response_data = {
             "message": "Exercise retrieved successfully",
             "success": True,
             "id": exercise_details.exerciseID,
             "title": exercise_details.name,
             "date": exercise_details.date.strftime("%Y-%m-%d") if exercise_details.date else None,
-            "description": exercise_details.description
+            "description": exercise_details.description,
+            "trainername": trainer_name,
+            "trainerID": exercise_details.userID
         }
 
         return response_data, 200
@@ -454,3 +487,70 @@ class ExerciseListResource(Resource):
 
         return response_data, 200
     
+@exercise_ns.route("/exercise-list-all")
+class ExerciseListAllResource(Resource):
+    @exercise_ns.marshal_with(exercise_model_exercise_list_nested)
+    @jwt_required()
+    def get(self):
+        username = get_jwt_identity()
+        curr_user = Users.query.filter_by(username=username).first()
+
+        if not curr_user:
+            response_data = { "message": "You must be logged in to access this resource", "success": False }
+            return Response(response_data, mimetype="application/json", status=401)
+        
+        permission = UsersPermission.query.filter_by(userID=curr_user.userID).first()
+
+        if not permission:
+            response_data = { "message": "The user with the specified ID does not exist", "success": False }
+            return response_data, 404
+        
+        elif permission.permissions != "admin":
+            response_data = { "message": "The user with the specified ID is not a trainer", "success": False }
+            return response_data, 418
+        
+        exercises_list = TrainersExercises.query.all()
+
+        if not exercises_list:
+            response_data = { "message": "No exercises found", "success": False, "exercises": [] }
+            return response_data, 200
+        
+        ex_list = []
+        
+        for exercise in exercises_list:
+            trainer_name = Users.query.filter_by(userID=exercise.userID).first()
+
+            if not trainer_name:
+                continue
+
+            registered_users = UsersExercises.query.filter_by(exerciseID=exercise.exerciseID).all()
+            users_list = []
+
+            for user in registered_users:
+                trainee_name = Users.query.filter_by(userID=user.userID).first()
+
+                if not trainee_name:
+                    continue
+                
+                users_list.append({
+                    "id": user.userID,
+                    "username": trainee_name.username
+                })
+
+            ex_list.append({
+                "id": exercise.exerciseID,
+                "title": exercise.name,
+                "date": exercise.date.strftime("%Y-%m-%d") if exercise.date else None,
+                "description": exercise.description,
+                "trainer_id": exercise.userID,
+                "trainer_name": trainer_name.username,
+                "registered_users": users_list
+            })
+        
+        response_data = {
+            "message": "Exercises retrieved successfully",
+            "success": True,
+            "exercises": ex_list
+        }
+
+        return response_data, 200

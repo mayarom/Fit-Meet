@@ -144,6 +144,12 @@ const ExercisePageList = () => {
                     ))}
                 </tbody>
             </Table>
+
+            <Row>
+                <Col>
+                    <Button variant="primary" onClick={() => window.history.back()}>Back</Button>
+                </Col>
+            </Row>
         </Container>
     );
 

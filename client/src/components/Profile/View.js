@@ -4,7 +4,21 @@ import { useParams } from 'react-router-dom';
 import { Button, Alert, Container, Row, Col, Card } from 'react-bootstrap';
 import '../../styles/profile.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaStar } from 'react-icons/fa'; // Import the star icon from react-icons/fa
 import AddReviewModal from './Review';
+
+// Beautiful star rating component
+const StarRating = ({ rating }) => {
+    const stars = [];
+    for (let i = 0; i < 5; i++) {
+        if (i < rating) {
+            stars.push(<FaStar key={i} color="gold" />);
+        } else {
+            stars.push(<FaStar key={i} color="lightgray" />);
+        }
+    }
+    return <>{stars}</>;
+};
 
 // Description: This component provides a user profile page for other users to view.
 const UserProfileComponent = () => {
@@ -22,14 +36,42 @@ const UserProfileComponent = () => {
 
     const [isLoading, setIsLoading] = useState(true);
     const prevUserIdRef = useRef();
+    const [error, setError] = useState(null);
+    const [permissions, setPermissions] = useState(null);
 
     useEffect(() => {
         document.title = 'Fit & Meet | User Profile';
+
+        fetch('/auth/get-permissions', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${JSON.parse(localStorage.getItem('REACT_TOKEN_AUTH_KEY'))}`
+            }
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch user permissions');
+            }
+            return response.json();
+        }).then(data => {
+            console.log('User permissions:', data);
+            setPermissions(data.permissions);
+        }).catch(error => {
+            console.error('Error fetching user permissions:', error);
+            setError("Failed to fetch user permissions");
+            setIsLoading(false);
+        });
 
         if (prevUserIdRef.current !== userid) {
             setIsLoading(true); // Start loading
 
             const token = localStorage.getItem('REACT_TOKEN_AUTH_KEY');
+
+            if (!token) {
+                console.log("User not logged in");
+                setError("Access denied. Please log in to view this page.");
+                return;
+            }
 
             fetch(`/profile/profile/${userid}`, {
                 method: 'GET',
@@ -60,6 +102,27 @@ const UserProfileComponent = () => {
 
     const [showAddReviewModal, setShowAddReviewModal] = useState(false);
     const handleCloseAddReviewModal = () => setShowAddReviewModal(false);
+
+    if (error) {
+        return (
+            <Container>
+                <Row>
+                    <h1 className="text-center">User Profile</h1>
+                    <Col>
+                        <Card>
+                            <Card.Body>
+                                <Card.Title>Error</Card.Title>
+                                <Alert variant="danger">{error}</Alert>
+                            </Card.Body>
+                            <Card.Body className="text-center">
+                                <Button href="/profile">Back to Profile</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
 
     if (isLoading) {
         return (
@@ -128,29 +191,23 @@ const UserProfileComponent = () => {
                                         <p>Paylink: <span className="data-field-bg"> <a href={user.trainer_details.paylink} target="_blank" rel="noopener noreferrer" className="paylink-text">{user.trainer_details.paylink}</a></span></p>
                                     </>
                                 }
-                                {user.basic_details.permissions === "admin" &&
-                                    <>
-                                        {/* Admin Information */}
-                                        <p>Admin Information</p>
-                                    </>
-                                }
                                 {user.basic_details.permissions !== "trainee" && user.basic_details.permissions !== "trainer" && user.basic_details.permissions !== "admin" &&
                                     <p>Invalid permissions</p>
                                 }
                             </Card.Text>
                         </Card.Body>
 
-                        {user.basic_details.permissions === "trainer" &&
+                        {user.basic_details.permissions === "trainer" && (
                             <Card.Body>
                                 <Card.Title className="card-title text-center">Reviews</Card.Title>
                                 {user.trainer_reviews && user.trainer_reviews.length > 0 ? (
                                     user.trainer_reviews.map(review => (
                                         <Card key={review.user_id} className="mb-2">
                                             <Card.Body>
-                                                <Card.Title className="card-title">{review.description}</Card.Title>
+                                                <Card.Title className="card-title">{review.username}'s Review</Card.Title>
                                                 <Card.Text className="card-text">
+                                                    <p>Rating: <StarRating rating={review.stars} /></p> {/* Display star rating */}
                                                     <p>{review.description}</p>
-                                                    <p>Rating: {review.stars}</p>
                                                 </Card.Text>
                                             </Card.Body>
                                         </Card>
@@ -159,14 +216,16 @@ const UserProfileComponent = () => {
                                     <p>No reviews yet!</p>
                                 )}
                             </Card.Body>
-                        }
+                        )}
 
                         <div className="text-center mb-3">
                             <Button variant="outline-primary" className="btn-outline-primary" onClick={() => window.history.back()}>
                                 Back
                             </Button>
                             { }
-                            <AddReviewModal show={showAddReviewModal} trainerId={user.trainer_details.trainer_id} handleClose={handleCloseAddReviewModal} onSubmit={(data) => { console.log(data); }} />
+                            {(permissions === "trainee" && user.basic_details.permissions === "trainer") &&
+                                <AddReviewModal show={showAddReviewModal} trainerId={user.trainer_details.trainer_id} handleClose={handleCloseAddReviewModal} onSubmit={(data) => { console.log(data); }} />
+                            }
                         </div>
                     </Card>
                 </Col>

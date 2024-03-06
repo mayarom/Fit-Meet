@@ -99,8 +99,8 @@ const ExercisePageMain = () => {
             });
         }
 
-        // Handle trainer permissions here
-        else if (permissions === 'trainer') {
+        // Handle trainer permissions here (also admin act as a trainer)
+        else if (permissions === 'trainer' || permissions === 'admin') {
             fetch(`/exercise/trainer-exercises/${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -142,7 +142,7 @@ const ExercisePageMain = () => {
         <Container fluid="md">
             <Row>
                 <Col>
-                    <h1> {permissions === 'trainer' ? 'Your Exercises' : 'Registered Exercises'} </h1>
+                    <h1> { (permissions === 'trainer' || permissions === 'admin') ? 'Your Exercises' : 'Registered Exercises'} </h1>
                 </Col>
             </Row>
             <Table striped bordered hover>
@@ -168,10 +168,7 @@ const ExercisePageMain = () => {
                                 </Link>
 
                                 {permissions === 'trainer' && <Link to={`/exercises/edit/${exercise.id}`}><Button variant="primary">Edit</Button></Link>}
-
-                                {permissions === 'trainer' && <Button variant="danger" onClick={() => deleteExercise(exercise.id)}>Delete</Button>}
-
-                                {permissions === 'trainee' && <Button variant="danger" onClick={() => deleteExercise(exercise.id)}>Unregister</Button>}
+                                <Button variant="danger" onClick={() => deleteExercise(exercise.id)}>{ (permissions === 'trainer' || permissions === 'admin') ? 'Delete' : 'Unregister'}</Button>
                             </td>
                         </tr>
                     ))}

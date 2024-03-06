@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Alert, Container } from 'react-bootstrap';
 import AdminComponent from './Menu';
 import AdminListComponent from './UsersList';
+import AdminExercisesComponent from './ExercisesList';
 import '../../styles/admin.css';
 
 const AdminPage = () => {
@@ -67,6 +68,9 @@ const AdminPage = () => {
                 </Route>
                 <Route path="/admin/list">
                     <AdminListComponent />
+                </Route>
+                <Route path="/admin/exercises">
+                    <AdminExercisesComponent />
                 </Route>
             </Switch>
         </Router>

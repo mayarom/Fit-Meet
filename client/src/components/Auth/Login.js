@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { login } from '../../auth';
+import { login, useAuth } from '../../auth';
 import '../../styles/signup_login.css';
 
 // Description: This component provides a login form for users to log in to the Fit & Meet application.
@@ -10,6 +10,7 @@ const LoginPage = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const history = useHistory();
     const [loginError, setLoginError] = useState(false);
+    const [logged] = useAuth();
 
     // Description: Function to handle user login.
     const loginUser = (data) => {
@@ -45,6 +46,16 @@ const LoginPage = () => {
 
         reset();
     };
+
+    if (logged) {
+        history.push('/');
+
+        return (
+            <div className="container mt-5">
+                <Alert variant="info">You are already logged in</Alert>
+            </div>
+        );
+    }
 
     return (
         <div className="container mt-5">
