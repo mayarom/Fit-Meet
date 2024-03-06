@@ -122,6 +122,7 @@ const ExercisePageDetails = () => {
                             <Card.Subtitle className="mb-2 text-muted">{exercises.date}</Card.Subtitle>
                             <Card.Text>{exercises.description}</Card.Text>
                             {permissions === 'trainer' && <Link to={`/exercises/details/${exercises.id}/edit`}><Button variant="primary">Edit</Button></Link>}
+                            <Button variant="secondary" onClick={() => window.history.back()}>Back</Button>
                         </Card.Body>
                     </Card>
                 </Col>

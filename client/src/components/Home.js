@@ -28,7 +28,7 @@ const LoggedinHome = () => {
 
             {logged ? (
                 <div className="exercise-buttons">
-                    <MyButton to="/exercises" variant="primary" className="exercise-button">View registered exercises</MyButton>
+                    <MyButton to="/exercises" variant="primary" className="exercise-button">View exercises</MyButton>
                 </div>
             ) : (
                 <div className="login-register-buttons">
